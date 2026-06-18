@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 const categories = [
   {
@@ -56,10 +57,12 @@ function CategoryCard({
     >
       {/* Image */}
       <div className="relative aspect-[3/4] overflow-hidden">
-        <motion.img
+        <Image
           src={cat.image}
           alt={cat.label}
-          className="w-full h-full object-cover object-center transition-transform duration-[1200ms] ease-out group-hover:scale-110"
+          fill
+          sizes="(max-width:768px) 100vw, 33vw"
+          className="object-cover object-center transition-transform duration-[1200ms] ease-out group-hover:scale-110"
         />
         {/* Overlay */}
         <div className="absolute inset-0 category-card-overlay transition-opacity duration-500 group-hover:opacity-90" />

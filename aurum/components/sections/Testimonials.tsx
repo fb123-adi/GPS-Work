@@ -4,6 +4,7 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { testimonials } from "@/lib/data";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
 
 export default function Testimonials() {
   const ref = useRef(null);
@@ -72,10 +73,12 @@ export default function Testimonials() {
 
               {/* Author */}
               <div className="flex items-center justify-center gap-4">
-                <img
+                <Image
                   src={testimonials[active].avatar}
                   alt={testimonials[active].name}
-                  className="w-12 h-12 rounded-full object-cover border border-aurum-gold/20"
+                  width={48}
+                  height={48}
+                  className="rounded-full object-cover border border-aurum-gold/20"
                 />
                 <div className="text-left">
                   <div className="font-jost text-sm font-semibold text-aurum-ivory">

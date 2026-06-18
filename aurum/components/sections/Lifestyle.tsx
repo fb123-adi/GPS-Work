@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
 
 const editorials = [
   {
@@ -76,10 +77,12 @@ export default function Lifestyle() {
                   : "col-span-12 md:col-span-5"
               }`}
             >
-              <img
+              <Image
                 src={item.image}
                 alt={item.title}
-                className="w-full h-full object-cover object-center transition-transform duration-[1000ms] ease-out group-hover:scale-105"
+                fill
+                sizes="(max-width:768px) 100vw, 50vw"
+                className="object-cover object-center transition-transform duration-[1000ms] ease-out group-hover:scale-105"
               />
 
               {/* Overlay */}

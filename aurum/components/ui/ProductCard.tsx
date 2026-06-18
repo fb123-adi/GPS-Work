@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Heart, ShoppingBag, Eye } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 
 interface Product {
   id: number;
@@ -50,10 +51,12 @@ export default function ProductCard({ product }: { product: Product }) {
     >
       {/* Image container */}
       <div className="relative aspect-[3/4] overflow-hidden product-img-wrap">
-        <img
+        <Image
           src={hovered ? product.hoverImage : product.image}
           alt={product.name}
-          className="w-full h-full object-cover object-top transition-all duration-700"
+          fill
+          sizes="(max-width:640px) 50vw, 25vw"
+          className="object-cover object-top transition-all duration-700"
         />
 
         {/* Gradient overlay */}

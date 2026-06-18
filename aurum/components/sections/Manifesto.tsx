@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
 
 export default function Manifesto() {
   const ref = useRef(null);
@@ -15,10 +16,12 @@ export default function Manifesto() {
     >
       {/* Background */}
       <div className="absolute inset-0 z-0">
-        <img
+        <Image
           src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1600&q=85"
           alt="AURUM Manifesto"
-          className="w-full h-full object-cover object-center opacity-20"
+          fill
+          sizes="100vw"
+          className="object-cover object-center opacity-20"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-aurum-black via-aurum-black/95 to-aurum-black/80" />
       </div>

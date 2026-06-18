@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ChevronDown } from "lucide-react";
+import Image from "next/image";
 
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -24,10 +25,13 @@ export default function Hero() {
         style={{ y, scale }}
         className="absolute inset-0 z-0"
       >
-        <img
+        <Image
           src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=1800&q=90"
           alt="AURUM Hero"
-          className="w-full h-full object-cover object-center"
+          fill
+          sizes="100vw"
+          priority
+          className="object-cover object-center"
         />
       </motion.div>
 

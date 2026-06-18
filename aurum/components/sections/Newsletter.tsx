@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
+import Image from "next/image";
 
 export default function Newsletter() {
   const ref = useRef(null);
@@ -28,11 +29,13 @@ export default function Newsletter() {
     <section className="relative py-24 px-6 lg:px-8 overflow-hidden bg-aurum-dark" id="newsletter">
       {/* Background */}
       <div className="absolute inset-0 z-0">
-        <img
+        <Image
           src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1600&q=80"
           alt=""
           aria-hidden="true"
-          className="w-full h-full object-cover object-center opacity-10"
+          fill
+          sizes="100vw"
+          className="object-cover object-center opacity-10"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-aurum-dark via-aurum-dark/95 to-aurum-dark" />
       </div>

@@ -156,3 +156,25 @@ body {
 }
 .marquee-inner { animation: marquee 20s linear infinite; }
 .marquee-inner:hover { animation-play-state: paused; }
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-inner {
+    animation: none !important;
+  }
+  .gold-shimmer {
+    animation: none !important;
+    background: #CA8A04;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
