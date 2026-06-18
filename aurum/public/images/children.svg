@@ -1,0 +1,19 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='800' height='1066' viewBox='0 0 800 1066'>
+  <defs>
+    <linearGradient id='g7829u' gradientTransform='rotate(130,0.5,0.5)'>
+      <stop offset='0' stop-color='#0c0a09'/><stop offset='0.55' stop-color='#1c1917'/><stop offset='1' stop-color='#292524'/>
+    </linearGradient>
+    <radialGradient id='r7829u' cx='0.5' cy='0.4' r='0.85'>
+      <stop offset='0' stop-color='#ca8a04' stop-opacity='0.22'/><stop offset='1' stop-color='#ca8a04' stop-opacity='0'/>
+    </radialGradient>
+    <filter id='n7829u'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.045'/></feComponentTransfer></filter>
+  </defs>
+  <rect width='800' height='1066' fill='url(#g7829u)'/>
+  <rect width='800' height='1066' fill='url(#r7829u)'/>
+  <g stroke='#ca8a04' stroke-opacity='0.08' fill='none' stroke-width='1'>
+    <circle cx='400' cy='426.40000000000003' r='256'/>
+    <circle cx='400' cy='426.40000000000003' r='400'/>
+  </g>
+  <rect width='800' height='1066' filter='url(#n7829u)'/>
+  <text x='50%' y='52%' text-anchor='middle' font-family='Georgia,serif' font-size='40' fill='#fafaf9' fill-opacity='0.10' letter-spacing='12' font-weight='600'>CHILDREN</text>
+</svg>

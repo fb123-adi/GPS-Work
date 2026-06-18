@@ -1,8 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;0,6..96,800;0,6..96,900;1,6..96,400;1,6..96,500;1,6..96,600;1,6..96,700&family=Jost:wght@200;300;400;500;600;700&display=swap");
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind v4 theme — generates bg-aurum-*, text-aurum-*, font-* utilities */
+@theme {
+  --color-aurum-black: #0c0a09;
+  --color-aurum-gold: #ca8a04;
+  --color-aurum-gold-light: #eab308;
+  --color-aurum-ivory: #fafaf9;
+  --color-aurum-gray: #a8a29e;
+  --color-aurum-dark: #1c1917;
+  --color-aurum-charcoal: #292524;
+
+  --font-bodoni: "Bodoni Moda", serif;
+  --font-jost: "Jost", sans-serif;
+}
 
 :root {
   --aurum-black: #0c0a09;

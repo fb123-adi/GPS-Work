@@ -30,7 +30,7 @@ export default function Newsletter() {
       {/* Background */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1600&q=80"
+          src="/images/newsletter.svg"
           alt=""
           aria-hidden="true"
           fill

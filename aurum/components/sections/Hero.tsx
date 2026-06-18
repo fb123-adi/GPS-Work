@@ -26,7 +26,7 @@ export default function Hero() {
         className="absolute inset-0 z-0"
       >
         <Image
-          src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=1800&q=90"
+          src="/images/hero.svg"
           alt="AURUM Hero"
           fill
           sizes="100vw"

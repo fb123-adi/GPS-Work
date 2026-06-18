@@ -17,7 +17,7 @@ export default function Manifesto() {
       {/* Background */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1600&q=85"
+          src="/images/manifesto.svg"
           alt="AURUM Manifesto"
           fill
           sizes="100vw"

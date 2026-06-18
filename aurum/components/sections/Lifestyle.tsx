@@ -6,26 +6,26 @@ import Image from "next/image";
 
 const editorials = [
   {
-    image: "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=600&q=85",
+    image: "/images/life-1.svg",
     tag: "Performance",
     title: "Train at the Pinnacle",
     text: "Elite performance fabric engineered with NASA-grade moisture technology.",
   },
   {
-    image: "https://images.unsplash.com/photo-1549576490-b0b4831ef60a?w=600&q=85",
+    image: "/images/life-2.svg",
     tag: "Lifestyle",
     title: "Beyond the Gym",
     text: "AURUM transitions seamlessly from the weight room to the boardroom.",
   },
   {
-    image: "https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?w=800&q=85",
+    image: "/images/life-3.svg",
     tag: "Ambition",
     title: "Discipline is Luxury",
     text: "Every great achievement starts with the right foundation. Choose AURUM.",
     large: true,
   },
   {
-    image: "https://images.unsplash.com/photo-1534367610401-9f5ed68180aa?w=600&q=85",
+    image: "/images/life-4.svg",
     tag: "Craftsmanship",
     title: "Details Define Excellence",
     text: "Gold-threaded accents and precision stitching on every piece.",
