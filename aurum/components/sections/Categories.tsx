@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
+import { img } from "@/lib/images";
 import Image from "next/image";
 
 const categories = [
@@ -11,7 +12,7 @@ const categories = [
     label: "MEN",
     subtitle: "Performance & Prestige",
     description: "Engineered for the ambitious athlete.",
-    image: "/images/men.svg",
+    image: img.men,
     href: "#men",
     products: "48 Pieces",
   },
@@ -19,7 +20,7 @@ const categories = [
     label: "WOMEN",
     subtitle: "Strength & Elegance",
     description: "Where power meets grace.",
-    image: "/images/women.svg",
+    image: img.women,
     href: "#women",
     products: "52 Pieces",
   },
@@ -27,7 +28,7 @@ const categories = [
     label: "CHILDREN",
     subtitle: "Future Champions",
     description: "Luxury essentials for the next generation.",
-    image: "/images/children.svg",
+    image: img.children,
     href: "#children",
     products: "31 Pieces",
   },

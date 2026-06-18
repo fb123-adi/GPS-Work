@@ -1,57 +1,77 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
-import { ChevronDown } from "lucide-react";
 import Image from "next/image";
+import { ChevronDown } from "lucide-react";
+import { img } from "@/lib/images";
+
+// Cinematic entrance: each layer blurs+rises into place on a spring.
+const reveal = {
+  hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
+  show: (d: number) => ({
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { type: "spring" as const, duration: 1, bounce: 0, delay: d },
+  }),
+};
 
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+
+  // Dual-layer parallax: media drifts down, content lifts and fades.
+  const mediaY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   return (
     <section
       ref={ref}
       className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden"
     >
-      {/* Background image with parallax */}
-      <motion.div
-        style={{ y, scale }}
-        className="absolute inset-0 z-0"
-      >
-        <Image
-          src="/images/hero.svg"
-          alt="AURUM Hero"
-          fill
-          sizes="100vw"
-          priority
-          className="object-cover object-center"
-        />
+      {/* Ken Burns media layer — slow perpetual zoom for cinematic life */}
+      <motion.div style={{ y: reduce ? 0 : mediaY }} className="absolute inset-0 z-0">
+        <motion.div
+          className="absolute inset-0"
+          initial={reduce ? false : { scale: 1.15 }}
+          animate={reduce ? {} : { scale: 1 }}
+          transition={{ duration: 14, ease: "easeOut" }}
+        >
+          <Image
+            src={img.hero}
+            alt="AURUM luxury sportswear campaign"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+        </motion.div>
       </motion.div>
 
-      {/* Overlay */}
+      {/* Cinematic vignette + gradient grading */}
       <div className="absolute inset-0 z-10 hero-overlay" />
+      <div className="absolute inset-0 z-10 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(12,10,9,0.55)_100%)]" />
 
-      {/* Gold accent lines */}
+      {/* Edge accent lines */}
       <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-aurum-gold/20 to-transparent z-20" />
       <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-aurum-gold/20 to-transparent z-20" />
 
       {/* Content */}
       <motion.div
-        style={{ opacity }}
+        style={{ y: reduce ? 0 : contentY, opacity: reduce ? 1 : contentOpacity }}
         className="relative z-30 text-center px-6 max-w-5xl mx-auto"
       >
-        {/* Pre-title */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          variants={reveal}
+          initial="hidden"
+          animate="show"
+          custom={0.1}
           className="flex items-center justify-center gap-4 mb-8"
         >
           <div className="h-px w-16 bg-gradient-to-r from-transparent to-aurum-gold/60" />
@@ -61,34 +81,43 @@ export default function Hero() {
           <div className="h-px w-16 bg-gradient-to-l from-transparent to-aurum-gold/60" />
         </motion.div>
 
-        {/* Main headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="font-bodoni text-6xl md:text-8xl lg:text-9xl font-bold text-aurum-ivory leading-[0.9] tracking-tight mb-6"
-        >
-          CRAFTED FOR
-          <br />
-          <em className="text-gold-gradient not-italic">EXCELLENCE</em>
-        </motion.h1>
+        <h1 className="font-bodoni text-6xl md:text-8xl lg:text-9xl font-bold text-aurum-ivory leading-[0.9] tracking-tight mb-6">
+          <motion.span
+            variants={reveal}
+            initial="hidden"
+            animate="show"
+            custom={0.25}
+            className="block"
+          >
+            CRAFTED FOR
+          </motion.span>
+          <motion.span
+            variants={reveal}
+            initial="hidden"
+            animate="show"
+            custom={0.45}
+            className="block text-gold-gradient"
+          >
+            EXCELLENCE
+          </motion.span>
+        </h1>
 
-        {/* Subheadline */}
         <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.7 }}
+          variants={reveal}
+          initial="hidden"
+          animate="show"
+          custom={0.7}
           className="font-jost text-base md:text-lg font-light tracking-[0.08em] text-aurum-gray max-w-2xl mx-auto mb-12"
         >
           Luxury sportswear engineered for performance
           <br className="hidden md:block" /> and designed for prestige.
         </motion.p>
 
-        {/* CTA Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.9 }}
+          variants={reveal}
+          initial="hidden"
+          animate="show"
+          custom={0.9}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <motion.a
@@ -109,11 +138,11 @@ export default function Hero() {
           </motion.a>
         </motion.div>
 
-        {/* Stats strip */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.3 }}
+          variants={reveal}
+          initial="hidden"
+          animate="show"
+          custom={1.15}
           className="mt-16 flex items-center justify-center gap-8 md:gap-12"
         >
           {[

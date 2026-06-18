@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import Image from "next/image";
+import { img } from "@/lib/images";
 
 export default function Newsletter() {
   const ref = useRef(null);
@@ -30,7 +31,7 @@ export default function Newsletter() {
       {/* Background */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/newsletter.svg"
+          src={img.newsletter}
           alt=""
           aria-hidden="true"
           fill

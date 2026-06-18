@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { img } from "@/lib/images";
 import Image from "next/image";
 
 export default function Manifesto() {
@@ -17,7 +18,7 @@ export default function Manifesto() {
       {/* Background */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/manifesto.svg"
+          src={img.manifesto}
           alt="AURUM Manifesto"
           fill
           sizes="100vw"

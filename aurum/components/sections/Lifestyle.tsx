@@ -3,29 +3,30 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
+import { img } from "@/lib/images";
 
 const editorials = [
   {
-    image: "/images/life-1.svg",
+    image: img.life1,
     tag: "Performance",
     title: "Train at the Pinnacle",
     text: "Elite performance fabric engineered with NASA-grade moisture technology.",
   },
   {
-    image: "/images/life-2.svg",
+    image: img.life2,
     tag: "Lifestyle",
     title: "Beyond the Gym",
     text: "AURUM transitions seamlessly from the weight room to the boardroom.",
   },
   {
-    image: "/images/life-3.svg",
+    image: img.life3,
     tag: "Ambition",
     title: "Discipline is Luxury",
     text: "Every great achievement starts with the right foundation. Choose AURUM.",
     large: true,
   },
   {
-    image: "/images/life-4.svg",
+    image: img.life4,
     tag: "Craftsmanship",
     title: "Details Define Excellence",
     text: "Gold-threaded accents and precision stitching on every piece.",
