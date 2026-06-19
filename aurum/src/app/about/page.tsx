@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Reveal } from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
@@ -29,7 +30,14 @@ export default function AboutPage() {
       <section className="bg-ivory py-16 sm:py-24">
         <div className="mx-auto grid max-w-editorial gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:items-center">
           <Reveal className="relative aspect-[4/5] overflow-hidden">
-            <div className="grain absolute inset-0 duo-ink" />
+            <Image
+              src="/images/about.webp"
+              alt="The AURUM maison"
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+            <div className="grain absolute inset-0" />
             <div className="absolute inset-0 bg-gradient-to-t from-ink/70 to-transparent" />
             <p className="absolute bottom-8 left-8 font-display text-3xl italic text-gold">
               Est. MMXXV

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { ButtonLink } from "@/components/ui/Button";
 
@@ -8,10 +9,19 @@ export function Hero() {
 
   return (
     <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-ink text-ivory">
-      {/* Cinematic backdrop. Drop a campaign film/poster in place of this layer:
-          <video autoPlay muted loop playsInline poster="...">.
-          The duotone + ken-burns reads as luxury editorial until then. */}
-      <div className={`grain absolute inset-0 duo-ink ${reduce ? "" : "animate-kenburns"}`} />
+      {/* Cinematic backdrop — branded art asset with a slow ken-burns push.
+          Swap /images/hero.webp for a campaign film/poster when ready. */}
+      <div className={`absolute inset-0 ${reduce ? "" : "animate-kenburns"}`}>
+        <Image
+          src="/images/hero.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+      </div>
+      <div className="grain absolute inset-0" />
       <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/10 to-ink" />
       <div className="absolute inset-0 bg-[radial-gradient(80%_60%_at_50%_30%,transparent,rgba(12,10,9,0.55))]" />
 

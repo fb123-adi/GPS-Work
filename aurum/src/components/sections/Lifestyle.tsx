@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -10,7 +11,14 @@ export function Lifestyle() {
         <div className="grid items-stretch gap-5 lg:grid-cols-2">
           {/* Editorial image */}
           <Reveal className="relative min-h-[28rem] overflow-hidden lg:min-h-[36rem]">
-            <div className="grain absolute inset-0 duo-graphite" />
+            <Image
+              src="/images/lifestyle-feature.webp"
+              alt="The AURUM lifestyle"
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+            <div className="grain absolute inset-0" />
             <div className="absolute inset-0 bg-gradient-to-t from-ink/70 to-transparent" />
             <div className="absolute bottom-0 left-0 p-9">
               <span className="eyebrow-on-dark">The AURUM Lifestyle</span>

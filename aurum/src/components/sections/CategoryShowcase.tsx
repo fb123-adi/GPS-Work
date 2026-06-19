@@ -1,25 +1,25 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
-import { cn } from "@/lib/utils";
 
 const categories = [
   {
     label: "Men",
     href: "/men",
     copy: "Compression, tailoring & limited drops.",
-    tone: "duo-ink",
+    image: "/images/category-men.webp",
   },
   {
     label: "Women",
     href: "/women",
     copy: "Sculpted activewear & lifestyle sets.",
-    tone: "duo-graphite",
+    image: "/images/category-women.webp",
   },
   {
     label: "Children",
     href: "/children",
     copy: "Premium essentials, made to move.",
-    tone: "duo-olive",
+    image: "/images/category-children.webp",
   },
 ];
 
@@ -49,12 +49,14 @@ export function CategoryShowcase() {
                 href={cat.href}
                 className="group relative block aspect-[4/5] overflow-hidden"
               >
-                <div
-                  className={cn(
-                    "grain absolute inset-0 transition-transform duration-[1.2s] ease-luxe group-hover:scale-105",
-                    cat.tone
-                  )}
+                <Image
+                  src={cat.image}
+                  alt={`${cat.label} collection`}
+                  fill
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className="object-cover transition-transform duration-[1.2s] ease-luxe group-hover:scale-105"
                 />
+                <div className="grain absolute inset-0" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/15 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-1 p-7">
                   <h3 className="font-display text-3xl tracking-wide text-ivory sm:text-4xl">

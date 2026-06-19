@@ -52,10 +52,25 @@ A restrained, warm, monochromatic register. The brand gold is muted to an
 
 ## Imagery
 
-Real campaign photography isn't bundled. Sections use **duotone editorial
-placeholders** (`.duo-*` + `.grain` in `globals.css`) so the layout reads as
-intentional luxury out of the box. Replace them with `next/image` — remote
-patterns for Unsplash and Shopify CDN are pre-allowed in `next.config.mjs`.
+Editorial sections (hero, category cards, lifestyle, about) use **branded art
+assets** in `public/images/*.webp`, rendered by `scripts/generate_art.py` —
+gradient-mesh atmospheres with film grain and gold light-bloom in the brand
+palette. All typography stays in HTML (these are texture only), so a11y/SEO are
+unaffected. Regenerate with:
+
+```bash
+python3 scripts/generate_art.py    # needs: pip install Pillow numpy
+```
+
+To swap in **real campaign photography**, drop files into `public/images/`
+using the same names (or update the `src` paths) — every section is already
+wired through `next/image`. Remote patterns for Unsplash and the Shopify CDN
+are pre-allowed in `next.config.mjs`. Product cards still use the lightweight
+`.duo-*` duotone placeholders (`globals.css`), keyed to each product's `tone`.
+
+> 3D: a real glTF model ships at `public/models/aurum-sneaker.glb` and renders
+> in the interactive atelier viewer (see the homepage 3D section and the
+> Velocity Pro Trainer product page).
 
 ## What's implemented vs. next
 
