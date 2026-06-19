@@ -105,6 +105,23 @@ export function getProducts() {
   return products;
 }
 
+export function getProductById(id: string) {
+  return products.find((p) => p.id === id);
+}
+
+export function getProductsByCategory(category: Product["category"]) {
+  return products.filter((p) => p.category === category);
+}
+
+export function getRelated(product: Product, limit = 4) {
+  return products
+    .filter((p) => p.id !== product.id && p.category === product.category)
+    .concat(products.filter((p) => p.id !== product.id && p.category !== product.category))
+    .slice(0, limit);
+}
+
 export function getCollections() {
   return ["Best Sellers", "New Arrivals", "Limited Edition", "Performance"] as const;
 }
+
+export const SIZES = ["XS", "S", "M", "L", "XL", "XXL"] as const;

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import type { Product } from "@/lib/products";
 import { formatPrice, cn } from "@/lib/utils";
@@ -32,6 +33,13 @@ export function ProductCard({ product }: { product: Product }) {
           className={cn("grain absolute inset-0", toneClass[product.tone])}
         />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent opacity-60" />
+
+        {/* Navigational layer — sits above the image, below the action buttons */}
+        <Link
+          href={`/product/${product.id}`}
+          className="absolute inset-0 z-[5]"
+          aria-label={`View ${product.name}`}
+        />
 
         {product.badge && (
           <span
@@ -76,7 +84,11 @@ export function ProductCard({ product }: { product: Product }) {
           <p className="text-[0.65rem] uppercase tracking-wide2 text-taupe">
             {product.category} · {product.collection}
           </p>
-          <h3 className="mt-1 font-display text-lg leading-tight text-ink">{product.name}</h3>
+          <h3 className="mt-1 font-display text-lg leading-tight text-ink">
+            <Link href={`/product/${product.id}`} className="transition-colors hover:text-gold-ink">
+              {product.name}
+            </Link>
+          </h3>
         </div>
         <p className="shrink-0 pt-1 font-body text-sm tracking-wide text-graphite">
           {formatPrice(product.price)}

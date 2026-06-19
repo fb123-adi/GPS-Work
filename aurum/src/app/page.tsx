@@ -5,6 +5,7 @@ import { Manifesto } from "@/components/sections/Manifesto";
 import { SignatureCollections } from "@/components/sections/SignatureCollections";
 import { WhyAurum } from "@/components/sections/WhyAurum";
 import { FeaturedProducts } from "@/components/sections/FeaturedProducts";
+import { AtelierShowcase } from "@/components/sections/AtelierShowcase";
 import { SocialProof } from "@/components/sections/SocialProof";
 import { Lifestyle } from "@/components/sections/Lifestyle";
 import { Newsletter } from "@/components/sections/Newsletter";
@@ -25,6 +26,8 @@ export default function HomePage() {
       <WhyAurum />
       {/* 6 — Featured Products */}
       <FeaturedProducts />
+      {/* 6b — Interactive 3D Atelier (360° view) */}
+      <AtelierShowcase />
       {/* 7 — Social Proof */}
       <SocialProof />
       {/* 8 — AURUM Lifestyle */}
