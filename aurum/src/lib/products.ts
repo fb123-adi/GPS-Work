@@ -16,6 +16,8 @@ export type Product = {
   badge?: string;
   tone: ProductTone;
   story: string;
+  /** Optional real glTF model — rendered in the 3D atelier viewer. */
+  modelUrl?: string;
 };
 
 export const products: Product[] = [
@@ -98,6 +100,18 @@ export const products: Product[] = [
     badge: "Limited",
     tone: "graphite",
     story: "Water-repellent technical shell, tailored to a clean editorial silhouette.",
+  },
+  {
+    id: "aur-009",
+    name: "Velocity Pro Trainer",
+    category: "Men",
+    collection: "Performance",
+    price: 295,
+    badge: "3D Atelier",
+    tone: "champagne",
+    story:
+      "A precision-engineered performance trainer with a sculpted last and tonal detailing. Explore every angle in our interactive 3D atelier before it reaches you.",
+    modelUrl: "/models/aurum-sneaker.glb",
   },
 ];
 

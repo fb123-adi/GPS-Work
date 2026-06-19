@@ -12,9 +12,14 @@ export function AtelierShowcase() {
   return (
     <section className="bg-charcoal py-20 text-ivory sm:py-28">
       <div className="mx-auto grid max-w-editorial items-center gap-12 px-5 sm:px-8 lg:grid-cols-2">
-        {/* 3D viewer */}
+        {/* 3D viewer — real glTF model */}
         <Reveal>
-          <ProductViewer tone="champagne" className="aspect-square w-full sm:aspect-[4/3] lg:aspect-square" />
+          <ProductViewer
+            tone="champagne"
+            modelUrl="/models/aurum-sneaker.glb"
+            label="Drag to rotate · live 3D model"
+            className="aspect-square w-full sm:aspect-[4/3] lg:aspect-square"
+          />
         </Reveal>
 
         {/* Copy */}
@@ -36,7 +41,7 @@ export function AtelierShowcase() {
             ))}
           </ul>
           <div className="mt-10">
-            <ButtonLink href="/product/aur-003" variant="gold">
+            <ButtonLink href="/product/aur-009" variant="gold">
               Explore in 3D
             </ButtonLink>
           </div>

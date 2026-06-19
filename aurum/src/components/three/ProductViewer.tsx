@@ -26,10 +26,12 @@ function ViewerSkeleton() {
 
 export function ProductViewer({
   tone = "champagne",
+  modelUrl,
   className,
   label = "Drag to rotate · 360°",
 }: {
   tone?: ProductTone;
+  modelUrl?: string;
   className?: string;
   label?: string;
 }) {
@@ -46,7 +48,12 @@ export function ProductViewer({
   return (
     <div className={cn("relative overflow-hidden bg-ink", className)}>
       <div className="grain absolute inset-0 duo-ink opacity-70" />
-      <Atelier3D tone={tone} autoRotate={!reduce} className="relative z-10 !absolute inset-0" />
+      <Atelier3D
+        tone={tone}
+        modelUrl={modelUrl}
+        autoRotate={!reduce}
+        className="relative z-10 !absolute inset-0"
+      />
       <div className="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex justify-center">
         <span className="flex items-center gap-2 bg-ink/50 px-4 py-2 text-[0.6rem] uppercase tracking-wide2 text-ivory/70 backdrop-blur">
           <RotateIcon /> {label}

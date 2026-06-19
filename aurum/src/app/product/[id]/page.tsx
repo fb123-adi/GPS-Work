@@ -74,8 +74,13 @@ export default function ProductPage({ params }: { params: { id: string } }) {
           <div className="lg:sticky lg:top-24 lg:self-start">
             <ProductViewer
               tone={product.tone}
+              modelUrl={product.modelUrl}
               className="aspect-[4/5] w-full"
-              label="Drag to rotate · 360° atelier view"
+              label={
+                product.modelUrl
+                  ? "Drag to rotate · live 3D model"
+                  : "Drag to rotate · 360° atelier view"
+              }
             />
             <div className="mt-3 grid grid-cols-4 gap-3">
               {(["ink", "graphite", "champagne", product.tone] as const).map((t, i) => (
