@@ -17,7 +17,7 @@
  * Everything downstream imports from here, so one edit re-skins the site.
  */
 
-const USE_REMOTE = false;
+const USE_REMOTE = true;
 
 // Local placeholder art (always present, never breaks)
 const LOCAL = {
