@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: theme("colors.ivory");
+    color: theme("colors.ink");
+    font-family: theme("fontFamily.body");
+  }
+
+  ::selection {
+    background-color: theme("colors.gold");
+    color: theme("colors.ink");
+  }
+
+  /* Restrained, on-brand focus ring for keyboard users. */
+  :focus-visible {
+    outline: 2px solid theme("colors.gold-ink");
+    outline-offset: 3px;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: theme("fontFamily.display");
+    font-weight: 500;
+  }
+}
+
+@layer components {
+  /* Editorial eyebrow label used across sections. */
+  .eyebrow {
+    @apply font-body text-[0.7rem] uppercase tracking-luxe text-gold-ink;
+  }
+
+  .eyebrow-on-dark {
+    @apply font-body text-[0.7rem] uppercase tracking-luxe text-gold;
+  }
+
+  /* The gold hairline used as a luxury divider. */
+  .hairline {
+    @apply h-px w-12 bg-gradient-to-r from-gold/0 via-gold to-gold/0;
+  }
+
+  /* Duotone editorial placeholder — stands in for campaign photography.
+     Replace these blocks with <Image> when real assets are ready. */
+  .duo-ink {
+    background:
+      radial-gradient(120% 90% at 30% 0%, #2a2622 0%, #0c0a09 60%),
+      linear-gradient(180deg, #161311, #0c0a09);
+  }
+  .duo-graphite {
+    background:
+      radial-gradient(120% 90% at 70% 10%, #5a534c 0%, #2a2622 70%),
+      linear-gradient(180deg, #3a342e, #211d1a);
+  }
+  .duo-champagne {
+    background:
+      radial-gradient(120% 90% at 30% 0%, #f3ead4 0%, #d9c9a3 70%),
+      linear-gradient(180deg, #e7dcc4, #cdbb95);
+  }
+  .duo-olive {
+    background:
+      radial-gradient(120% 90% at 60% 10%, #4b4f3a 0%, #2f3327 70%),
+      linear-gradient(180deg, #3a3e2c, #23261b);
+  }
+  .duo-oxblood {
+    background:
+      radial-gradient(120% 90% at 40% 0%, #6b3530 0%, #3f1f1c 70%),
+      linear-gradient(180deg, #532824, #321714);
+  }
+
+  /* Fine film-grain / texture to keep flat surfaces from feeling cheap. */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

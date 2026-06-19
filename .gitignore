@@ -1,7 +1,10 @@
 node_modules/
-dist/
-src/
-*.config.*
-tsconfig*
-package*
-postcss*
+
+# Root-level patterns are anchored with a leading slash so they only apply at
+# the repository root and don't swallow subprojects (e.g. the aurum/ app).
+/dist/
+/src/
+/*.config.*
+/tsconfig*
+/package*
+/postcss*
