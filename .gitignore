@@ -5,3 +5,5 @@ src/
 tsconfig*
 package*
 postcss*
+__pycache__/
+*.pyc
