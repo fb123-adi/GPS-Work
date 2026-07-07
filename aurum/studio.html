@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customization Studio — AURUM</title>
+<meta name="description" content="Design Without Limits. The AURUM Customization Studio: a real-time 3D atelier where you create a garment that exists only once.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 30H24.4L16 12.4 7.6 30H2L16 2Z' fill='%23D4AF37'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/aurum.css">
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header id="site-header"></header>
+
+<main id="main">
+  <div class="studio-shell">
+
+    <!-- ── Left: the garment ── -->
+    <div class="studio-col" aria-label="Garment and cloth">
+      <p class="prov" style="margin-bottom:0.4rem"><span class="n">The Studio</span></p>
+      <h1 style="font-size:var(--step-3);margin-bottom:0.4rem">Design Without Limits</h1>
+      <p style="color:var(--ink-soft);font-size:var(--step--1)">Create a garment that exists only once. In yours.</p>
+
+      <div class="ai-box">
+        <span class="lbl"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3c.6 4.8 4.2 8.4 9 9-4.8.6-8.4 4.2-9 9-.6-4.8-4.2-8.4-9-9 4.8-.6 8.4-4.2 9-9Z"/></svg> Atelier Assistant</span>
+        <label class="visually-hidden" for="ai-input">Describe a design</label>
+        <input id="ai-input" type="text" placeholder="Describe it — “royal emerald gym set”">
+        <div class="ai-suggestions" id="ai-chips"></div>
+        <p class="ai-note" id="ai-note">Describe a mood; the assistant drafts the cloth, colour and finish.</p>
+      </div>
+
+      <div class="studio-group">
+        <span class="lbl">Garment</span>
+        <div class="opt-list" id="type-list"></div>
+      </div>
+
+      <div class="studio-group">
+        <span class="lbl">Cloth</span>
+        <div class="opt-list" id="fabric-list"></div>
+      </div>
+    </div>
+
+    <!-- ── Center: the stage ── -->
+    <div class="studio-stage" aria-label="Live 3D preview">
+      <div id="studio-canvas" style="position:absolute;inset:0"></div>
+      <div class="stage-hud">
+        <span class="prov" id="hud-line"></span>
+        <span class="prov">Drag to rotate · Scroll to zoom</span>
+      </div>
+    </div>
+
+    <!-- ── Right: finish & order ── -->
+    <div class="studio-col" aria-label="Finish and order">
+      <div class="studio-group">
+        <span class="lbl">Lighting</span>
+        <div class="seg" id="light-seg" role="group" aria-label="Preview lighting">
+          <button type="button" data-light="studio" aria-pressed="true">Studio</button>
+          <button type="button" data-light="daylight" aria-pressed="false">Daylight</button>
+          <button type="button" data-light="runway" aria-pressed="false">Runway</button>
+        </div>
+      </div>
+
+      <div class="studio-group">
+        <span class="lbl">Colour <button class="chip" type="button" id="cw-reset" style="font-size:0.7rem">Reset</button></span>
+        <div class="swatch-grid" id="color-presets"></div>
+        <div class="color-wheel-row">
+          <label class="visually-hidden" for="color-wheel">Custom colour</label>
+          <input type="color" id="color-wheel" value="#141310">
+          <span class="prov">Advanced colour wheel</span>
+        </div>
+      </div>
+
+      <div class="studio-group">
+        <span class="lbl">Pattern</span>
+        <div class="seg" id="pattern-seg" role="group" aria-label="Pattern"></div>
+      </div>
+
+      <div class="studio-group studio-field">
+        <span class="lbl">Embroidered monogram <span class="prov" id="mono-count">0 / 12</span></span>
+        <label class="visually-hidden" for="mono-input">Monogram text</label>
+        <input id="mono-input" type="text" maxlength="12" placeholder="Initials, a name, a word">
+      </div>
+
+      <div class="studio-group">
+        <span class="lbl">Construction</span>
+        <div class="opt-list" id="construction-list"></div>
+      </div>
+
+      <div class="price-ticket" aria-live="polite">
+        <div class="brk"><span>Piece</span><span id="pr-base"></span></div>
+        <div class="brk"><span>Cloth</span><span id="pr-fabric"></span></div>
+        <div class="brk"><span>Finish</span><span id="pr-finish"></span></div>
+        <hr class="hairline" style="margin:0.6rem 0">
+        <span class="prov">Your one-of-one</span>
+        <div class="total" id="pr-total"></div>
+        <p class="prov" style="margin:0.6rem 0 0">Drafted &amp; sewn in 21 days · Certificate included</p>
+      </div>
+
+      <div class="buy-actions" style="margin:0">
+        <button class="btn btn-gold" id="order-btn" type="button">Commission this piece</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem">
+          <button class="btn btn-line" id="save-btn" type="button">Save design</button>
+          <button class="btn btn-line" id="export-btn" type="button">Export preview</button>
+        </div>
+        <button class="btn btn-line" id="share-btn" type="button">Share design code</button>
+      </div>
+
+      <div class="studio-group" style="margin-top:1.6rem">
+        <span class="lbl">Saved designs</span>
+        <div class="saved-designs" id="saved-list"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer id="site-footer"></footer>
+<script type="module" src="js/studio.js"></script>
+</body>
+</html>

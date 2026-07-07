@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Membership — AURUM</title>
+<meta name="description" content="The house keeps a guest list. Gold, Platinum and Diamond membership at AURUM: early access, private events, bespoke commissions.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 30H24.4L16 12.4 7.6 30H2L16 2Z' fill='%23D4AF37'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/aurum.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header id="site-header"></header>
+
+<main id="main">
+  <section class="collection-hero">
+    <div class="wrap">
+      <p class="prov"><span class="n">Elite Membership</span> · The Salon</p>
+      <h1>The house keeps a guest list.</h1>
+      <p class="lead">Membership is not a subscription. It is a standing at the maison, earned by acquisition and honoured for life.</p>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="tiers-h">
+    <h2 id="tiers-h" class="visually-hidden">Membership tiers</h2>
+    <div class="tiers">
+      <div class="tier reveal">
+        <h3>Gold</h3>
+        <span class="tier-price">Complimentary with first acquisition</span>
+        <ul>
+          <li>Early access, 24 hours before public release</li>
+          <li>Signature lacquered packaging on every order</li>
+          <li>Birthday atelier gift, chosen by your history</li>
+          <li>Seasonal Dispatch in print</li>
+        </ul>
+        <button class="btn btn-line" type="button" data-tier="Gold">Join Gold</button>
+      </div>
+      <div class="tier reveal" data-stagger="1">
+        <h3>Platinum</h3>
+        <span class="tier-price">By annual acquisition · reviewed each season</span>
+        <ul>
+          <li>Everything in Gold</li>
+          <li>Exclusive drops and members-only collections</li>
+          <li>Priority worldwide delivery, 24–48 hours</li>
+          <li>Personal stylist, two consultations per season</li>
+          <li>Order tracking with a named concierge</li>
+        </ul>
+        <button class="btn btn-line" type="button" data-tier="Platinum">Ascend to Platinum</button>
+      </div>
+      <div class="tier tier-featured reveal" data-stagger="2">
+        <h3>Diamond</h3>
+        <span class="tier-price">One hundred members worldwide</span>
+        <ul>
+          <li>Everything in Platinum</li>
+          <li>Private atelier events and runway seats</li>
+          <li>First refusal on every Limited Edition</li>
+          <li>Bespoke commissions with the studio director</li>
+          <li>Family provenance ledger for your archive</li>
+        </ul>
+        <button class="btn btn-gold" type="button" data-tier="Diamond">Request invitation</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight wrap-tight" aria-labelledby="apply-h">
+    <p class="prov reveal"><span class="n">Application</span></p>
+    <h2 id="apply-h" class="reveal" data-stagger="1" style="font-size:var(--step-3)">Introduce yourself to the house</h2>
+    <form id="apply-form" class="form-grid reveal" data-stagger="2" style="margin-top:2rem">
+      <div class="field">
+        <label for="ap-name">Full name</label>
+        <input id="ap-name" type="text" required autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="ap-email">Email</label>
+        <input id="ap-email" type="email" required autocomplete="email">
+      </div>
+      <div class="field">
+        <label for="ap-city">City</label>
+        <input id="ap-city" type="text" autocomplete="address-level2">
+      </div>
+      <div class="field">
+        <label for="ap-tier">Desired standing</label>
+        <select id="ap-tier">
+          <option>Gold</option><option>Platinum</option><option>Diamond</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label for="ap-note">A word about you <span style="text-transform:none;letter-spacing:0">(optional)</span></label>
+        <textarea id="ap-note" rows="4" placeholder="What do you train for?"></textarea>
+      </div>
+      <div class="full">
+        <button class="btn btn-gold" type="submit">Submit application</button>
+      </div>
+    </form>
+  </section>
+</main>
+
+<footer id="site-footer"></footer>
+<script type="module">
+  import { mountChrome, toast } from "./js/ui.js";
+  mountChrome({ current: "membership" });
+  document.querySelectorAll("[data-tier]").forEach(b => b.addEventListener("click", () => {
+    document.getElementById("ap-tier").value = b.dataset.tier;
+    document.getElementById("apply-form").scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById("ap-name").focus({ preventScroll: true });
+  }));
+  document.getElementById("apply-form").addEventListener("submit", e => {
+    e.preventDefault();
+    toast("Application received. The house replies within two days.");
+    e.target.reset();
+  });
+</script>
+</body>
+</html>

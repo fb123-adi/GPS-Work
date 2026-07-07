@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AURUM — Luxury Sportswear Maison</title>
+<meta name="description" content="AURUM is a luxury sportswear house. Crafted for those who refuse ordinary — explore the collections or design a one-of-one in the Customization Studio.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 30H24.4L16 12.4 7.6 30H2L16 2Z' fill='%23D4AF37'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/aurum.css">
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header id="site-header"></header>
+
+<main id="main">
+
+  <!-- ═══ Hero ═══ -->
+  <section class="hero" aria-label="AURUM — introduction">
+    <div class="hero-canvas" id="hero-canvas" aria-hidden="true"></div>
+    <div class="hero-veil" aria-hidden="true"></div>
+    <div class="wrap hero-inner">
+      <p class="hero-kicker hero-stage">Luxury · Performance · Legacy</p>
+      <h1 class="hero-stage" data-delay="1">Crafted for Those Who Refuse Ordinary.</h1>
+      <p class="lead hero-stage" data-delay="2">Luxury sportswear engineered for excellence. Cut in Biella, tested at altitude, finished by hand.</p>
+      <div class="hero-ctas hero-stage" data-delay="3">
+        <a class="btn btn-gold" href="collection.html?c=men">Explore Collection</a>
+        <a class="btn btn-ghost" href="studio.html">Customize Your Identity</a>
+      </div>
+      <div class="hero-foot hero-stage" data-delay="3">
+        <span>Est. 1987 · Maison of performance</span>
+        <span class="scroll-cue">Enter the house
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 4v16m-6-6 6 6 6-6"/></svg>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ The House ═══ -->
+  <section class="section wrap-tight" aria-labelledby="house-h">
+    <p class="prov reveal"><span class="n">The House</span></p>
+    <h2 id="house-h" class="reveal" data-stagger="1">An atelier that treats a training layer with the same reverence as a couture gown.</h2>
+    <p class="lead reveal" data-stagger="2">Every AURUM piece is exhibited before it is sold: numbered, provenanced, and engraved into the house archive. What you wear is not merchandise. It is a record.</p>
+  </section>
+
+  <!-- ═══ Featured capsule ═══ -->
+  <section class="section wrap" aria-labelledby="capsule-h">
+    <div class="capsule">
+      <div class="capsule-plate reveal" id="capsule-plate"></div>
+      <div>
+        <p class="prov reveal"><span class="n">Featured Capsule</span> · Autumn Presentation</p>
+        <h2 id="capsule-h" class="reveal" data-stagger="1">Signature Gold</h2>
+        <p class="reveal" data-stagger="2">Fourteen pieces finished with 24-karat thread at the seam: the house signature, visible only when the light finds it. Each piece ships with its certificate and a numbered brass tag.</p>
+        <p class="reveal" data-stagger="2"><a class="link-arrow" href="collection.html?c=men&capsule=Signature%20Gold">View the capsule
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Collection floors ═══ -->
+  <section class="section wrap" aria-labelledby="floors-h">
+    <div class="section-head">
+      <div>
+        <p class="prov"><span class="n">The Collections</span></p>
+        <h2 id="floors-h">Four floors. One standard.</h2>
+      </div>
+      <a class="link-arrow" href="collection.html?c=men">Enter the galleries
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></a>
+    </div>
+    <div id="floors"></div>
+  </section>
+
+  <!-- ═══ Best sellers rail ═══ -->
+  <section class="section-tight wrap" aria-labelledby="best-h">
+    <div class="section-head">
+      <div>
+        <p class="prov"><span class="n">Best Sellers</span> · Most acquired this season</p>
+        <h2 id="best-h">The proven pieces</h2>
+      </div>
+    </div>
+    <div class="rail" id="best-rail" tabindex="0" aria-label="Best sellers gallery — scrolls horizontally"></div>
+  </section>
+
+  <!-- ═══ Limited edition (gold inversion) ═══ -->
+  <section class="section gilded" aria-labelledby="ltd-h">
+    <div class="wrap edition-grid">
+      <div>
+        <p class="prov reveal"><span class="n">Limited Edition</span> · Black Label</p>
+        <h2 id="ltd-h" class="reveal" data-stagger="1">Edition of one hundred. Then never again.</h2>
+        <p class="reveal" data-stagger="2">The Black Label drop is cut once a year from a single bolt of Biella merino. When the bolt ends, the edition closes and the pattern is retired to the archive.</p>
+        <div class="edition-meta reveal" data-stagger="2">
+          <div><span class="val">100</span><span class="lbl">Pieces worldwide</span></div>
+          <div><span class="val">1</span><span class="lbl">Bolt of merino</span></div>
+          <div><span class="val">0</span><span class="lbl">Re-issues, ever</span></div>
+        </div>
+        <p class="reveal" data-stagger="3" style="margin-top:2rem"><a class="btn btn-dark" href="collection.html?c=men&capsule=Limited%20Edition">Request access</a></p>
+      </div>
+      <div class="floor-plates reveal" id="ltd-plates" data-stagger="1"></div>
+    </div>
+  </section>
+
+  <!-- ═══ Innovation / materials ═══ -->
+  <section class="section wrap" aria-labelledby="mat-h">
+    <div class="section-head">
+      <div>
+        <p class="prov"><span class="n">Innovation</span> · Material research</p>
+        <h2 id="mat-h">Fabric is the first luxury</h2>
+      </div>
+    </div>
+    <div class="materials" id="materials"></div>
+  </section>
+
+  <!-- ═══ Studio teaser ═══ -->
+  <section class="section wrap" aria-labelledby="studio-h">
+    <div class="studio-teaser reveal">
+      <div>
+        <p class="prov"><span class="n">Customization Studio</span></p>
+        <h2 id="studio-h">Design Without Limits</h2>
+        <p>Choose the cloth, the cut, the thread, the monogram. Watch the garment take shape in real time, then own the only one that will ever exist.</p>
+        <a class="btn btn-gold" href="studio.html">Open the Studio</a>
+      </div>
+      <div class="viewer" id="teaser-plate" aria-label="Preview: a hoodie cycling through studio colorways"></div>
+    </div>
+  </section>
+
+  <!-- ═══ Membership ═══ -->
+  <section class="section wrap" aria-labelledby="mem-h">
+    <div class="section-head">
+      <div>
+        <p class="prov"><span class="n">Elite Membership</span></p>
+        <h2 id="mem-h">The house keeps a guest list</h2>
+      </div>
+      <a class="link-arrow" href="membership.html">Full privileges
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></a>
+    </div>
+    <div class="tiers">
+      <div class="tier reveal">
+        <h3>Gold</h3>
+        <span class="tier-price">Complimentary with first acquisition</span>
+        <ul>
+          <li>Early access, 24 hours before public</li>
+          <li>Signature packaging on every order</li>
+          <li>Birthday atelier gift</li>
+        </ul>
+        <a class="btn btn-line" href="membership.html">Join Gold</a>
+      </div>
+      <div class="tier reveal" data-stagger="1">
+        <h3>Platinum</h3>
+        <span class="tier-price">By annual acquisition</span>
+        <ul>
+          <li>Exclusive drops &amp; members-only pieces</li>
+          <li>Priority worldwide delivery</li>
+          <li>Personal stylist consultations</li>
+        </ul>
+        <a class="btn btn-line" href="membership.html">Ascend to Platinum</a>
+      </div>
+      <div class="tier tier-featured reveal" data-stagger="2">
+        <h3>Diamond</h3>
+        <span class="tier-price">One hundred members worldwide</span>
+        <ul>
+          <li>Private atelier events &amp; runway seats</li>
+          <li>First refusal on every Limited Edition</li>
+          <li>Bespoke commissions with the studio</li>
+        </ul>
+        <a class="btn btn-gold" href="membership.html">Request invitation</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Words from the floor ═══ -->
+  <section class="section wrap" aria-labelledby="quote-h">
+    <h2 id="quote-h" class="visually-hidden">Client words</h2>
+    <div class="quote-stage">
+      <div class="quote-fade" id="quote-box" aria-live="polite"></div>
+      <div class="quote-dots" id="quote-dots" role="tablist" aria-label="Choose testimonial"></div>
+    </div>
+  </section>
+
+  <!-- ═══ Newsletter ═══ -->
+  <section class="section-tight wrap-tight newsletter" aria-labelledby="nl-h">
+    <p class="prov reveal"><span class="n">The Dispatch</span></p>
+    <h2 id="nl-h" class="reveal" data-stagger="1">Hear about a drop before it exists</h2>
+    <form id="nl-form" class="reveal" data-stagger="2">
+      <label class="visually-hidden" for="nl-email">Email address</label>
+      <input id="nl-email" type="email" required placeholder="your@address.com" autocomplete="email">
+      <button class="btn btn-gold" type="submit">Subscribe</button>
+    </form>
+    <p class="note reveal" data-stagger="3">One dispatch per season. Unsubscribe with a single word.</p>
+  </section>
+
+</main>
+
+<footer id="site-footer"></footer>
+
+<script type="module" src="js/home.js"></script>
+</body>
+</html>
