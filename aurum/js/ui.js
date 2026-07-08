@@ -156,7 +156,7 @@ export function mountChrome({ current = "" } = {}) {
       </div>
       <div class="footer-bottom">
         <span>&#169; ${new Date().getFullYear()} AURUM Maison. Luxury. Performance. Legacy.</span>
-        <span>Crafted in-house · No ordinary threads</span>
+        <span>Crafted in-house · <a href="admin.html">Atelier register</a></span>
       </div>
     </div>`;
   }

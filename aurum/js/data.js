@@ -171,15 +171,162 @@ function buildCategory(key, label, items, seedBase, kidsScale) {
   });
 }
 
-export const CATALOG = {
+/* Pristine generated catalog — never mutated, so "reset to default" works. */
+export const BASE_CATALOG = {
   men: buildCategory("men", "Men", MEN, 11),
   women: buildCategory("women", "Women", WOMEN, 211),
   unisex: buildCategory("unisex", "Unisex", UNISEX, 311),
   kids: buildCategory("kids", "Kids", KIDS, 411, true),
 };
+export const CAT_LABELS = { men: "Men", women: "Women", unisex: "Unisex", kids: "Kids" };
 
-export const ALL = [...CATALOG.men, ...CATALOG.women, ...CATALOG.unisex, ...CATALOG.kids];
+/* Vocabulary offered to the admin editor. */
+export const SILHOUETTES = [
+  "tee", "oversizedTee", "cropTee", "tank", "polo", "compression", "hoodie", "cropHoodie",
+  "sweatshirt", "jersey", "jacket", "bomber", "windbreaker", "puffer", "coat", "blazer", "vest",
+  "bra", "dress", "skirt", "swim", "joggers", "cargo", "shorts", "leggings", "set",
+  "cap", "beanie", "scarf", "socks", "gloves", "belt", "sneaker", "slide", "boot",
+  "duffel", "backpack", "tote", "crossbody", "wallet", "strap", "sunglasses",
+  "bottle", "towel", "sleeve", "umbrella", "pillow", "mask", "organizer",
+];
+export const GROUPS = ["Tops", "Bottoms", "Outerwear", "Performance", "Kits", "Accessories", "Footwear", "Bags", "Travel", "Equipment", "Lounge"];
+
+/* ---------- Admin layer (localStorage overrides) ----------
+   Edits to generated products, plus admin-created products, live in
+   localStorage so the boutique reflects them instantly. This is a
+   static site: changes are per-browser. A backend swap keeps the same
+   shape — replace these reads with a fetch of the same JSON. */
+const ADMIN = {
+  overrides: "aurum.admin.overrides", // { [id]: { name, price, ... } }
+  custom: "aurum.admin.custom",       // [ productSeed, ... ]
+  hidden: "aurum.admin.hidden",       // [ id, ... ] generated products removed
+};
+function readJSON(key, fallback) {
+  try { const v = JSON.parse(localStorage.getItem(key)); return v ?? fallback; } catch { return fallback; }
+}
+function writeJSON(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+
+const cwById = Object.fromEntries(COLORWAYS.map(w => [w.id, w]));
+function resolveColorways(list, fallback) {
+  if (!Array.isArray(list) || !list.length) return fallback;
+  const out = list.map(x => (typeof x === "string" ? cwById[x] : x)).filter(Boolean);
+  return out.length ? out : fallback;
+}
+
+/* Turn an admin-created seed into a full product object. */
+export function materializeCustom(seed, n = 900) {
+  return {
+    id: seed.id,
+    n: seed.n ?? n,
+    name: seed.name || "Untitled Piece",
+    item: seed.item || seed.name || "Piece",
+    cat: BASE_CATALOG[seed.cat] ? seed.cat : "men",
+    catLabel: CAT_LABELS[BASE_CATALOG[seed.cat] ? seed.cat : "men"],
+    silhouette: SILHOUETTES.includes(seed.silhouette) ? seed.silhouette : "tee",
+    group: seed.group || "Tops",
+    capsule: seed.capsule || "Elite Collection",
+    price: Number(seed.price) || 0,
+    fabric: seed.fabric || "Merino wool",
+    origin: seed.origin || "Biella, Italy",
+    colorways: resolveColorways(seed.colorways, [COLORWAYS[0], COLORWAYS[2], COLORWAYS[5]]),
+    rating: seed.rating ?? "4.9",
+    reviews: seed.reviews ?? 0,
+    bestseller: !!seed.bestseller,
+    limited: !!seed.limited,
+    custom: true,
+  };
+}
+
+export const CATALOG = { men: BASE_CATALOG.men, women: BASE_CATALOG.women, unisex: BASE_CATALOG.unisex, kids: BASE_CATALOG.kids };
+
+function applyAdminLayer() {
+  const overrides = readJSON(ADMIN.overrides, {});
+  const custom = readJSON(ADMIN.custom, []);
+  const hidden = readJSON(ADMIN.hidden, []);
+  for (const cat of Object.keys(BASE_CATALOG)) {
+    let list = BASE_CATALOG[cat].filter(p => !hidden.includes(p.id));
+    list = list.map(p => {
+      const ov = overrides[p.id];
+      if (!ov) return p;
+      return { ...p, ...ov, colorways: resolveColorways(ov.colorways, p.colorways), price: ov.price != null ? Number(ov.price) : p.price };
+    });
+    CATALOG[cat] = list;
+  }
+  custom.forEach((seed, i) => {
+    const c = BASE_CATALOG[seed.cat] ? seed.cat : "men";
+    CATALOG[c] = [...CATALOG[c], materializeCustom(seed, 900 + i)];
+  });
+}
+applyAdminLayer();
+
+export let ALL = [...CATALOG.men, ...CATALOG.women, ...CATALOG.unisex, ...CATALOG.kids];
 export const byId = id => ALL.find(p => p.id === id);
+
+/* ---------- Admin API (used by admin.html) ---------- */
+export const admin = {
+  state() {
+    return {
+      overrides: readJSON(ADMIN.overrides, {}),
+      custom: readJSON(ADMIN.custom, []),
+      hidden: readJSON(ADMIN.hidden, []),
+    };
+  },
+  isCustom(id) { return String(id).startsWith("cust-"); },
+  isHidden(id) { return this.state().hidden.includes(id); },
+  isEdited(id) { return this.isCustom(id) || Object.prototype.hasOwnProperty.call(this.state().overrides, id); },
+  /* Override one or more fields on an existing product. */
+  patch(id, fields) {
+    if (this.isCustom(id)) {
+      const custom = readJSON(ADMIN.custom, []);
+      const idx = custom.findIndex(s => s.id === id);
+      if (idx >= 0) { custom[idx] = { ...custom[idx], ...fields }; writeJSON(ADMIN.custom, custom); }
+    } else {
+      const overrides = readJSON(ADMIN.overrides, {});
+      overrides[id] = { ...overrides[id], ...fields };
+      writeJSON(ADMIN.overrides, overrides);
+    }
+    applyAdminLayer(); ALL = [...CATALOG.men, ...CATALOG.women, ...CATALOG.unisex, ...CATALOG.kids];
+  },
+  /* Create a brand-new product. Returns its id. */
+  add(seed) {
+    const custom = readJSON(ADMIN.custom, []);
+    const id = "cust-" + Date.now().toString(36);
+    custom.push({ ...seed, id });
+    writeJSON(ADMIN.custom, custom);
+    applyAdminLayer(); ALL = [...CATALOG.men, ...CATALOG.women, ...CATALOG.unisex, ...CATALOG.kids];
+    return id;
+  },
+  /* Remove a product: delete custom, hide generated. */
+  remove(id) {
+    if (this.isCustom(id)) {
+      writeJSON(ADMIN.custom, readJSON(ADMIN.custom, []).filter(s => s.id !== id));
+      const overrides = readJSON(ADMIN.overrides, {}); delete overrides[id]; writeJSON(ADMIN.overrides, overrides);
+    } else {
+      const hidden = readJSON(ADMIN.hidden, []);
+      if (!hidden.includes(id)) hidden.push(id);
+      writeJSON(ADMIN.hidden, hidden);
+    }
+    applyAdminLayer(); ALL = [...CATALOG.men, ...CATALOG.women, ...CATALOG.unisex, ...CATALOG.kids];
+  },
+  /* Undo edits/removal on a generated product. */
+  reset(id) {
+    const overrides = readJSON(ADMIN.overrides, {}); delete overrides[id]; writeJSON(ADMIN.overrides, overrides);
+    writeJSON(ADMIN.hidden, readJSON(ADMIN.hidden, []).filter(x => x !== id));
+    applyAdminLayer(); ALL = [...CATALOG.men, ...CATALOG.women, ...CATALOG.unisex, ...CATALOG.kids];
+  },
+  resetAll() {
+    [ADMIN.overrides, ADMIN.custom, ADMIN.hidden].forEach(k => localStorage.removeItem(k));
+    applyAdminLayer(); ALL = [...CATALOG.men, ...CATALOG.women, ...CATALOG.unisex, ...CATALOG.kids];
+  },
+  exportJSON() { return JSON.stringify(this.state(), null, 2); },
+  importJSON(text) {
+    const data = JSON.parse(text);
+    if (data.overrides) writeJSON(ADMIN.overrides, data.overrides);
+    if (data.custom) writeJSON(ADMIN.custom, data.custom);
+    if (data.hidden) writeJSON(ADMIN.hidden, data.hidden);
+    applyAdminLayer(); ALL = [...CATALOG.men, ...CATALOG.women, ...CATALOG.unisex, ...CATALOG.kids];
+  },
+};
 
 /* ---------- Currency (catalog prices are USD) ---------- */
 export const CURRENCIES = {

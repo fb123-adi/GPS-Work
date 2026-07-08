@@ -761,6 +761,39 @@ dialog.search-overlay {
 .order-items .thumb { width: 3rem; border: 1px solid var(--line-soft); display: block; }
 @media (max-width: 960px) { .checkout-grid, .dash-grid { grid-template-columns: 1fr; } .co-summary { position: static; order: -1; } }
 
+/* ---------- Admin register ---------- */
+.admin-stats { display: flex; flex-wrap: wrap; gap: 1.5rem 2.5rem; margin: var(--space-3) 0; padding-bottom: 1.5rem; border-bottom: 1px solid var(--line-soft); }
+.admin-stat .val { display: block; font-family: var(--font-display); font-size: var(--step-3); line-height: 1; color: var(--gold-ink); }
+.admin-stat .lbl { display: block; margin-top: 0.3rem; font-size: var(--step--1); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
+.admin-toolbar { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; margin-bottom: 1.5rem; }
+.admin-table-wrap { overflow-x: auto; border: 1px solid var(--line-soft); }
+.admin-table { width: 100%; border-collapse: collapse; min-width: 52rem; background: var(--raised); }
+.admin-table th, .admin-table td { text-align: left; padding: 0.85rem 1rem; border-bottom: 1px solid var(--line-soft); vertical-align: middle; font-size: var(--step--1); }
+.admin-table thead th { font-family: var(--font-text); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.72rem; color: var(--ink-soft); background: var(--surface); position: sticky; top: 0; }
+.admin-table tbody tr:hover { background: color-mix(in oklch, var(--gold) 5%, transparent); }
+.cell-piece { display: flex; align-items: center; gap: 0.9rem; font-weight: 400; }
+.admin-thumb { width: 3.2rem; flex: none; border: 1px solid var(--line-soft); display: block; }
+.admin-thumb svg { display: block; }
+.price-input { width: 6.5rem; text-align: right; background: var(--bg); border: 1px solid var(--line); color: var(--ink); padding: 0.45rem 0.6rem; font: inherit; font-size: var(--step--1); }
+.price-input:focus { outline: 2px solid var(--gold-ink); outline-offset: -1px; }
+.badge { display: inline-block; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.22rem 0.6rem; border: 1px solid; }
+.badge-new { color: var(--forest); border-color: color-mix(in oklch, var(--forest) 50%, transparent); background: color-mix(in oklch, var(--forest) 8%, transparent); }
+.badge-edit { color: var(--gold-ink); border-color: color-mix(in oklch, var(--gold-ink) 50%, transparent); background: color-mix(in oklch, var(--gold) 10%, transparent); }
+.badge-stock { color: var(--ink-soft); border-color: var(--line); }
+.cell-actions { display: flex; gap: 0.5rem; white-space: nowrap; }
+.btn-xs { min-height: 2.1rem; padding: 0.3rem 0.85rem; font-size: 0.7rem; }
+.btn-xs.danger:hover { border-color: var(--burgundy); color: var(--burgundy); }
+
+.editor-dialog { border: 1px solid var(--line-soft); background: var(--surface); color: var(--ink); padding: 0; width: min(44rem, calc(100vw - 2rem)); margin: auto; }
+.editor-dialog::backdrop { background: oklch(20% 0.03 120 / 0.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+.editor-body { padding: 1.5rem; max-height: 66vh; overflow-y: auto; }
+.editor-foot { display: flex; justify-content: flex-end; gap: 0.8rem; padding: 1.1rem 1.5rem; border-top: 1px solid var(--line-soft); }
+.cw-checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 0.5rem; }
+.cw-check { display: flex; align-items: center; gap: 0.5rem; font-size: var(--step--1); text-transform: none; letter-spacing: 0; color: var(--ink-soft); border: 1px solid var(--line-soft); padding: 0.45rem 0.6rem; cursor: pointer; }
+.cw-check i { width: 1.1rem; height: 1.1rem; border-radius: 50%; border: 1px solid var(--line); flex: none; }
+.cw-check:has(input:checked) { border-color: var(--gold-ink); color: var(--ink); }
+@media (max-width: 640px) { .cell-piece { min-width: 12rem; } }
+
 /* ---------- Page transition veil ---------- */
 .js .page-veil { position: fixed; inset: 0; z-index: var(--z-toast); background: var(--forest-deep); pointer-events: none; opacity: 0; transition: opacity 0.45s var(--ease-out); }
 .js .page-veil.active { opacity: 1; pointer-events: auto; }
