@@ -4,6 +4,8 @@
 name: Deploy gh-pages content to Pages
 
 on:
+  push:
+    branches: ["claude/happy-knuth-my0Zh"]
   workflow_dispatch:
 
 permissions:
