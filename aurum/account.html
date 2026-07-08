@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Dashboard — AURUM</title>
+<meta name="description" content="Your AURUM dashboard: orders and tracking, currency preference, saved studio designs, and your wishlist.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 30H24.4L16 12.4 7.6 30H2L16 2Z' fill='%23D4AF37'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/aurum.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header id="site-header"></header>
+
+<main id="main" class="wrap" style="padding-block: calc(4.5rem + var(--space-4)) var(--space-5)">
+  <p class="prov"><span class="n">The Ledger</span> · Private client dashboard</p>
+  <h1 style="font-size:var(--step-4)">Your standing with the house</h1>
+
+  <div class="dash-grid">
+    <section class="co-block" aria-labelledby="dash-prefs">
+      <h3 id="dash-prefs">Preferences</h3>
+      <div class="field" style="max-width:22rem">
+        <label for="pref-currency">Boutique currency</label>
+        <select id="pref-currency"></select>
+      </div>
+      <p class="prov" style="margin-top:0.8rem">Prices across the maison, the studio and the register follow this choice. It also selects your payment rails: UPI &amp; NetBanking for INR, SEPA for EUR, PayPal for USD.</p>
+      <div class="field" style="max-width:22rem;margin-top:1.2rem">
+        <label for="pref-name">Name on your certificates</label>
+        <input id="pref-name" type="text" placeholder="As it should be lettered" autocomplete="name">
+      </div>
+    </section>
+
+    <section class="co-block" aria-labelledby="dash-orders">
+      <h3 id="dash-orders">Orders &amp; tracking</h3>
+      <div id="orders-list"></div>
+    </section>
+
+    <section class="co-block" aria-labelledby="dash-designs">
+      <h3 id="dash-designs">Your one-of-ones</h3>
+      <div class="saved-designs" id="designs-list"></div>
+    </section>
+
+    <section class="co-block" aria-labelledby="dash-wish">
+      <h3 id="dash-wish">Wishlist</h3>
+      <div id="wish-list"></div>
+    </section>
+  </div>
+</main>
+
+<footer id="site-footer"></footer>
+<script type="module" src="js/account.js"></script>
+</body>
+</html>

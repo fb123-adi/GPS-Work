@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atelier Register — AURUM Admin</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 30H24.4L16 12.4 7.6 30H2L16 2Z' fill='%23D4AF37'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/aurum.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header id="site-header"></header>
+
+<main id="main" class="wrap" style="padding-block: calc(4.5rem + var(--space-4)) var(--space-5)">
+  <p class="prov"><span class="n">Atelier Register</span> · Catalogue management</p>
+  <h1 style="font-size:var(--step-4)">Products &amp; prices</h1>
+  <p class="lead" style="max-width:60ch">Add pieces, adjust prices, edit any detail. Changes appear across the boutique immediately. Prices are stored in USD and shown to clients in their chosen currency.</p>
+
+  <div class="admin-stats" id="admin-stats" aria-live="polite"></div>
+
+  <div class="admin-toolbar">
+    <button class="btn btn-gold" type="button" id="add-btn">Add a piece</button>
+    <button class="btn btn-line" type="button" id="export-btn">Export catalogue</button>
+    <button class="btn btn-line" type="button" id="import-btn">Import</button>
+    <input type="file" id="import-file" accept="application/json" hidden>
+    <button class="btn btn-line" type="button" id="reset-all-btn" style="margin-left:auto">Reset all to default</button>
+  </div>
+
+  <div class="filter-rail" style="position:static;background:none;backdrop-filter:none;border:0;padding-block:0;margin-bottom:1.5rem">
+    <div style="display:flex;flex-wrap:wrap;gap:0.6rem;align-items:center;width:100%">
+      <div id="cat-chips" role="group" aria-label="Filter by collection" style="display:flex;gap:0.5rem;flex-wrap:wrap"></div>
+      <label style="margin-left:auto;display:flex;align-items:center;gap:0.6rem;color:var(--ink-soft);font-size:var(--step--1)">
+        <span>Search</span>
+        <input type="search" id="search" placeholder="Name, fabric, capsule…" style="background:var(--raised);border:1px solid var(--line);color:var(--ink);padding:0.5rem 0.8rem;font:inherit;font-size:var(--step--1)">
+      </label>
+    </div>
+  </div>
+
+  <div class="admin-table-wrap">
+    <table class="admin-table" id="admin-table">
+      <thead>
+        <tr>
+          <th scope="col">Piece</th>
+          <th scope="col">Collection</th>
+          <th scope="col">Capsule</th>
+          <th scope="col" style="text-align:right">Price (USD)</th>
+          <th scope="col">Shown as</th>
+          <th scope="col">Status</th>
+          <th scope="col"><span class="visually-hidden">Actions</span></th>
+        </tr>
+      </thead>
+      <tbody id="admin-rows"></tbody>
+    </table>
+  </div>
+</main>
+
+<!-- Editor -->
+<dialog class="editor-dialog" id="editor" aria-label="Edit piece">
+  <form id="editor-form" method="dialog">
+    <div class="drawer-head">
+      <h3 id="editor-title">Edit piece</h3>
+      <button class="icon-btn" type="button" data-cancel aria-label="Close">✕</button>
+    </div>
+    <div class="editor-body">
+      <div class="form-grid">
+        <div class="field full"><label for="f-name">Name</label><input id="f-name" required></div>
+        <div class="field"><label for="f-cat">Collection</label>
+          <select id="f-cat"><option value="men">Men</option><option value="women">Women</option><option value="unisex">Unisex</option><option value="kids">Kids</option></select>
+        </div>
+        <div class="field"><label for="f-price">Price (USD base)</label><input id="f-price" type="number" min="0" step="1" required></div>
+        <div class="field"><label for="f-silhouette">Silhouette (plate art)</label><select id="f-silhouette"></select></div>
+        <div class="field"><label for="f-group">Group</label><select id="f-group"></select></div>
+        <div class="field"><label for="f-capsule">Capsule</label><select id="f-capsule"></select></div>
+        <div class="field"><label for="f-fabric">Fabric</label><input id="f-fabric" placeholder="Merino wool"></div>
+        <div class="field full"><label for="f-origin">Origin</label><input id="f-origin" placeholder="Biella, Italy"></div>
+        <div class="field full">
+          <label>Colourways</label>
+          <div class="cw-checks" id="f-colorways"></div>
+        </div>
+        <div class="field full" style="display:flex;gap:1.5rem">
+          <label style="display:flex;gap:0.5rem;align-items:center;text-transform:none;letter-spacing:0"><input type="checkbox" id="f-bestseller"> Best seller</label>
+          <label style="display:flex;gap:0.5rem;align-items:center;text-transform:none;letter-spacing:0"><input type="checkbox" id="f-limited"> Limited edition</label>
+        </div>
+      </div>
+    </div>
+    <div class="editor-foot">
+      <button class="btn btn-line" type="button" data-cancel>Cancel</button>
+      <button class="btn btn-gold" type="submit" id="editor-save">Save piece</button>
+    </div>
+  </form>
+</dialog>
+
+<footer id="site-footer"></footer>
+<script type="module" src="js/admin.js"></script>
+</body>
+</html>

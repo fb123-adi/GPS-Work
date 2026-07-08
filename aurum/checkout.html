@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout — AURUM</title>
+<meta name="description" content="Complete your AURUM acquisition: worldwide express, duties included, signature packaging and certificate.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 30H24.4L16 12.4 7.6 30H2L16 2Z' fill='%23D4AF37'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/aurum.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header id="site-header"></header>
+
+<main id="main" class="wrap" style="padding-block: calc(4.5rem + var(--space-4)) var(--space-5)">
+  <div id="checkout-live">
+    <p class="prov"><span class="n">The Register</span> · Secure acquisition</p>
+    <h1 style="font-size:var(--step-4)">Checkout</h1>
+
+    <div class="checkout-grid">
+      <div>
+        <form id="checkout-form" novalidate>
+          <section class="co-block" aria-labelledby="co-addr">
+            <h3 id="co-addr">Delivery</h3>
+            <div class="form-grid">
+              <div class="field"><label for="co-name">Full name</label><input id="co-name" type="text" required autocomplete="name"></div>
+              <div class="field"><label for="co-email">Email</label><input id="co-email" type="email" required autocomplete="email"></div>
+              <div class="field full"><label for="co-street">Street address</label><input id="co-street" type="text" required autocomplete="street-address"></div>
+              <div class="field"><label for="co-city">City</label><input id="co-city" type="text" required autocomplete="address-level2"></div>
+              <div class="field"><label for="co-country">Country</label>
+                <select id="co-country" autocomplete="country-name">
+                  <option>India</option><option>Germany</option><option>France</option>
+                  <option selected>United States</option><option>United Kingdom</option>
+                  <option>Singapore</option><option>United Arab Emirates</option><option>Other</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section class="co-block" aria-labelledby="co-pack">
+            <h3 id="co-pack">Packaging</h3>
+            <div class="opt-list" id="pack-list"></div>
+          </section>
+
+          <section class="co-block" aria-labelledby="co-pay">
+            <h3 id="co-pay">Payment</h3>
+            <p class="prov" style="margin-bottom:1rem">Charged in <span class="n" id="pay-currency"></span> · switch currency from the header or your <a href="account.html" style="text-transform:none;letter-spacing:0">dashboard</a></p>
+            <div class="seg" id="pay-methods" role="group" aria-label="Payment method"></div>
+            <div id="pay-fields" style="margin-top:1.1rem"></div>
+          </section>
+
+          <button class="btn btn-gold" type="submit" style="width:100%" id="place-btn">Place order</button>
+          <p class="prov" style="margin-top:0.8rem;text-align:center">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:inline;vertical-align:-2px" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 7.9 7.5 9.5 4.3-1.6 7.5-4.9 7.5-9.5V6L12 3Z"/></svg>
+            Demonstration register: no real charge is made. Gateway hooks (Razorpay · Stripe) are stubbed in checkout.js.
+          </p>
+        </form>
+      </div>
+
+      <aside class="co-summary" aria-label="Order summary">
+        <h3>Your order</h3>
+        <div id="summary-lines"></div>
+        <div class="co-totals" id="summary-totals"></div>
+        <p class="prov">Worldwide express 2–4 days · duties included · lifetime seam warranty · certificate of authenticity</p>
+      </aside>
+    </div>
+  </div>
+
+  <div id="checkout-done" hidden>
+    <div class="order-done">
+      <svg width="52" height="52" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 2 30 30H24.4L16 12.4 7.6 30H2L16 2Z" stroke="var(--gold-ink)" stroke-width="1.4"/><path d="M10.5 23h11" stroke="var(--gold-ink)" stroke-width="1.4"/></svg>
+      <p class="prov" style="margin-top:1.2rem"><span class="n" id="done-id"></span></p>
+      <h1 style="font-size:var(--step-4)">The house has your order.</h1>
+      <p class="lead" style="margin-inline:auto">Your pieces enter the atelier today. A certificate of authenticity is being lettered with your name, and your concierge will write within the day.</p>
+      <div class="hero-ctas" style="justify-content:center">
+        <a class="btn btn-gold" href="account.html">Track in your dashboard</a>
+        <a class="btn btn-ghost" href="index.html">Return to the maison</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer id="site-footer"></footer>
+<script type="module" src="js/checkout.js"></script>
+</body>
+</html>

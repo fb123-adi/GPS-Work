@@ -1,0 +1,49 @@
+# AURUM — Design System
+
+Register: brand (design IS the product). Site lives in `aurum/` as a framework-free multi-page static site.
+
+## Concept
+
+**The private house museum.** AURUM's site is a maison, not a store. Garments are exhibited as artifacts: engraved hairline "plates" (procedural SVG line art) on graphite plinths under spotlights, each with a provenance number (Nº 014 — Merino, Biella). The hero and product viewers are real WebGL (vendored Three.js) with liquid-gold material under studio light. Nothing appears instantly; everything arrives.
+
+## Color (OKLCH; old money — ivory ground, forest & burgundy commitment)
+
+| Token | Value | Role |
+|---|---|---|
+| `--bg` | `oklch(95.5% 0.013 92)` | cream ivory body |
+| `--bg-deep` / `--forest-deep` | `oklch(26% 0.052 155)` | deep forest vault: hero, Limited Edition band, footer |
+| `--surface` / `--raised` | `oklch(92.5%/97.5% …)` | warm paper panels |
+| `--ink` | `oklch(26% 0.012 80)` | charcoal text |
+| `--ink-soft` | `oklch(43% 0.018 85)` | secondary text (≥4.5:1 on ivory) |
+| `--ink-inverse(-soft)` | `oklch(94%/80% …)` | ivory text on green surfaces |
+| `--forest` | `oklch(34% 0.062 155)` | primary interactive green |
+| `--gold` / `--gold-ink` | `oklch(76%/54% 0.1+ ~92)` | gold accents; `-ink` variant reads on ivory |
+| `--burgundy` | `oklch(40% 0.125 15)` | links, active nav, accents |
+| `--champagne` | `oklch(86% 0.06 95)` | gold highlight on green |
+
+Strategy: ivory ground with **committed forest-green drenches** (hero vault, Limited Edition, footer) and burgundy interactive accents; gold stays where a hand would touch. Plates are engraved on cream paper (`#F2ECDD`) like bank-note etchings; gold detail ink `#A8842C`.
+
+## Commerce
+
+Catalog prices are USD; `data.js` converts at display via `Intl.NumberFormat` for **USD / EUR / INR** (`aurum.currency` in localStorage). Switchers live in the header and the dashboard (`account.html`). Checkout (`checkout.html`) is currency-aware — UPI/NetBanking rails for INR, SEPA for EUR, PayPal for USD, cards everywhere — with gateway stubs (`authorize()` in `checkout.js`) marked for Razorpay (INR) and Stripe (cards/EUR/USD). Orders persist to `aurum.orders` and render a tracking timeline in the dashboard.
+
+## Typography
+
+- **Display:** Italiana 400 (hairline fashion didone; self-hosted woff2). Headings `clamp()`, max 6rem, letter-spacing +0.01em, `text-wrap: balance`.
+- **Text/UI:** Archivo 200/400/500/600 (machined grotesk; self-hosted). Body 1.0625rem / 1.68 line-height (light-on-dark bonus applied). Measure ≤70ch.
+- Scale ratio ≥1.3. Caps only on short labels (buttons, provenance numbers).
+
+## Components
+
+- **Plate**: SVG garment engraving in a 4:5 frame, radial spotlight, plinth shadow, provenance caption. Stroke tinted by colorway.
+- **Buttons**: `.btn-gold` (solid gold, black text), `.btn-ghost` (1px gold hairline, ivory text). 150–300ms ease-out-quart transitions.
+- **Chrome**: fixed translucent header (blur earns its place over WebGL), drawer `<dialog>`s for cart/search, gold 2px focus rings.
+- **Icons**: hand-rolled inline SVG, 1.5px stroke, one family.
+
+## Motion
+
+Choreographed arrival: hero load sequence (mark → headline mask reveal → CTAs), IntersectionObserver reveals with visible-by-default safety, scroll-snap galleries, mouse-parallax camera in WebGL. Ease-out-quart/expo only, 150–400ms; every effect has a `prefers-reduced-motion` alternative (instant/crossfade). 3D is progressive enhancement with static SVG fallback.
+
+## Pages
+
+`index.html` · `collection.html?c=men|women|unisex|kids` (+capsule filters) · `product.html?id=` (3D viewer) · `studio.html` (3D configurator) · `membership.html` · `about.html`. Shared: `css/aurum.css`, `js/{data,garments,ui,hero3d,garment3d,studio}.js`, vendored `three` + fonts.
