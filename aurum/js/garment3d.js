@@ -304,7 +304,7 @@ export function createViewer(host, config = {}) {
   /* Pedestal */
   const pedestal = new THREE.Mesh(
     new THREE.CylinderGeometry(1.6, 1.7, 0.14, 56),
-    new THREE.MeshStandardMaterial({ color: 0x191713, metalness: 0.4, roughness: 0.5 }));
+    new THREE.MeshStandardMaterial({ color: 0xd6cfbc, metalness: 0.15, roughness: 0.6 }));
   pedestal.position.y = -2.35;
   scene.add(pedestal);
   const ring = new THREE.Mesh(

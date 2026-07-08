@@ -19,12 +19,12 @@ const FABRICS = [
 ];
 
 const COLORWAYS = [
-  { id: "noir",     name: "Noir / Gold",     stroke: "#D4AF37", hex: "#141310" },
-  { id: "ivory",    name: "Ivory",           stroke: "#EAE3D2", hex: "#EAE3D2" },
-  { id: "emerald",  name: "Emerald",         stroke: "#2F9E77", hex: "#14523C" },
-  { id: "burgundy", name: "Royal Burgundy",  stroke: "#B04A5A", hex: "#5C1F2A" },
-  { id: "sapphire", name: "Sapphire",        stroke: "#5B7FD4", hex: "#22345F" },
-  { id: "titanium", name: "Titanium Silver", stroke: "#C9CCD4", hex: "#8A8E98" },
+  { id: "noir",     name: "Noir / Gold",     stroke: "#33302A", hex: "#141310" },
+  { id: "ivory",    name: "Ivory",           stroke: "#8C8471", hex: "#EAE3D2" },
+  { id: "forest",   name: "Forest Green",    stroke: "#1F5B41", hex: "#1F4A33" },
+  { id: "burgundy", name: "Royal Burgundy",  stroke: "#6B222E", hex: "#5C1F2A" },
+  { id: "sapphire", name: "Sapphire",        stroke: "#2C4470", hex: "#22345F" },
+  { id: "gold",     name: "Antique Gold",    stroke: "#A8842C", hex: "#8A6A14" },
 ];
 
 const CAPSULES = [
@@ -180,5 +180,22 @@ export const CATALOG = {
 
 export const ALL = [...CATALOG.men, ...CATALOG.women, ...CATALOG.unisex, ...CATALOG.kids];
 export const byId = id => ALL.find(p => p.id === id);
-export const money = n => "$" + n.toLocaleString("en-US");
+
+/* ---------- Currency (catalog prices are USD) ---------- */
+export const CURRENCIES = {
+  USD: { label: "USD $", locale: "en-US", rate: 1 },
+  EUR: { label: "EUR €", locale: "de-DE", rate: 0.86 },
+  INR: { label: "INR ₹", locale: "en-IN", rate: 83.5 },
+};
+export function currentCurrency() {
+  const c = localStorage.getItem("aurum.currency");
+  return CURRENCIES[c] ? c : "USD";
+}
+export function setCurrency(code) {
+  if (CURRENCIES[code]) localStorage.setItem("aurum.currency", code);
+}
+export const money = n => {
+  const code = currentCurrency(), c = CURRENCIES[code];
+  return new Intl.NumberFormat(c.locale, { style: "currency", currency: code, maximumFractionDigits: 0 }).format(n * c.rate);
+};
 export { COLORWAYS, CAPSULES };

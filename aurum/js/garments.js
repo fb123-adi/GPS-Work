@@ -2,8 +2,8 @@
    Each product renders as hairline SVG line art on a lit graphite
    plinth. Deterministic per product; tinted by colorway. */
 
-const G = "#D4AF37";          // gold detail ink
-const GHOST = "rgba(234,227,210,0.16)";
+const G = "#A8842C";          // gold detail ink (reads on paper)
+const GHOST = "rgba(43,42,38,0.22)";
 
 /* Shared flat-lay bodies. LONG = long-sleeve torso; variants derive by hem. */
 const LONG_BODY = "M142 150 Q200 136 258 150 L296 176 Q305 184 306 196 L312 314 Q312 326 300 328 L278 332 Q268 332 266 320 L258 236 L258 352 Q258 364 246 364 L154 364 Q142 364 142 352 L142 236 L134 320 Q132 332 122 332 L100 328 Q88 326 88 314 L94 196 Q95 184 104 176 Z";
@@ -290,25 +290,25 @@ export function plate(product, opts = {}) {
   return `
   <svg viewBox="0 0 400 500" role="img" aria-label="${label}" ${opts.attrs || ""}>
     <defs>
-      <radialGradient id="${id}-spot" cx="50%" cy="26%" r="72%">
-        <stop offset="0%" stop-color="rgba(234,227,210,0.10)"/>
-        <stop offset="46%" stop-color="rgba(234,227,210,0.03)"/>
-        <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+      <radialGradient id="${id}-spot" cx="50%" cy="30%" r="78%">
+        <stop offset="0%" stop-color="rgba(255,253,246,0.75)"/>
+        <stop offset="55%" stop-color="rgba(255,253,246,0)"/>
+        <stop offset="100%" stop-color="rgba(76,68,48,0.10)"/>
       </radialGradient>
       <linearGradient id="${id}-plinth" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="rgba(212,175,55,0.35)"/>
-        <stop offset="100%" stop-color="rgba(212,175,55,0)"/>
+        <stop offset="0%" stop-color="rgba(140,110,44,0.5)"/>
+        <stop offset="100%" stop-color="rgba(140,110,44,0)"/>
       </linearGradient>
     </defs>
-    <rect width="400" height="500" fill="#0B0A09"/>
+    <rect width="400" height="500" fill="#F2ECDD"/>
     <rect width="400" height="500" fill="url(#${id}-spot)"/>
-    <ellipse cx="200" cy="446" rx="118" ry="10" fill="rgba(0,0,0,0.55)"/>
+    <ellipse cx="200" cy="446" rx="118" ry="10" fill="rgba(58,52,38,0.14)"/>
     <path d="M82 446 L318 446" stroke="url(#${id}-plinth)" stroke-width="1.5"/>
     <g fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ${transform}>
       ${draw}
     </g>
-    <text x="24" y="478" font-family="Archivo, sans-serif" font-size="11" letter-spacing="2.5" fill="rgba(234,227,210,0.45)">AURUM · N&#186; ${String(product.n).padStart(3, "0")}</text>
-    <text x="376" y="478" text-anchor="end" font-family="Archivo, sans-serif" font-size="11" letter-spacing="2.5" fill="rgba(212,175,55,0.55)">${(product.origin || "").split(",")[0].toUpperCase()}</text>
+    <text x="24" y="478" font-family="Archivo, sans-serif" font-size="11" letter-spacing="2.5" fill="rgba(70,64,52,0.6)">AURUM · N&#186; ${String(product.n).padStart(3, "0")}</text>
+    <text x="376" y="478" text-anchor="end" font-family="Archivo, sans-serif" font-size="11" letter-spacing="2.5" fill="rgba(140,110,44,0.8)">${(product.origin || "").split(",")[0].toUpperCase()}</text>
   </svg>`;
 }
 
@@ -334,4 +334,4 @@ export function exhibitCard(p, { base = "" } = {}) {
   </article>`;
 }
 
-const fmt = n => "$" + n.toLocaleString("en-US");
+import { money as fmt } from "./data.js";

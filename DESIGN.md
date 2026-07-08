@@ -6,25 +6,26 @@ Register: brand (design IS the product). Site lives in `aurum/` as a framework-f
 
 **The private house museum.** AURUM's site is a maison, not a store. Garments are exhibited as artifacts: engraved hairline "plates" (procedural SVG line art) on graphite plinths under spotlights, each with a provenance number (Nº 014 — Merino, Biella). The hero and product viewers are real WebGL (vendored Three.js) with liquid-gold material under studio light. Nothing appears instantly; everything arrives.
 
-## Color (OKLCH; near-black drench + gold signature)
+## Color (OKLCH; old money — ivory ground, forest & burgundy commitment)
 
 | Token | Value | Role |
 |---|---|---|
-| `--bg` | `oklch(12% 0.004 80)` | body drench (deep black #050505-family) |
-| `--bg-deep` | `oklch(8% 0.003 80)` | hero / vault |
-| `--surface` | `oklch(17% 0.005 80)` | graphite panels |
-| `--raised` | `oklch(21% 0.006 80)` | raised panels, inputs |
-| `--line` | `oklch(30% 0.008 85)` | hairline borders |
-| `--ink` | `oklch(94% 0.014 90)` | warm ivory text |
-| `--ink-soft` | `oklch(74% 0.018 88)` | secondary text (≥4.5:1 on bg) |
-| `--gold` | `oklch(76% 0.119 95)` | Royal gold #D4AF37 — CTAs, hairlines, mark |
-| `--champagne` | `oklch(86% 0.06 95)` | gold highlight |
-| `--emerald` | `oklch(58% 0.10 165)` | accent (colorways) |
-| `--burgundy` | `oklch(45% 0.12 15)` | accent (colorways) |
-| `--sapphire` | `oklch(55% 0.10 260)` | accent (colorways) |
-| `--silver` | `oklch(82% 0.008 260)` | titanium accent |
+| `--bg` | `oklch(95.5% 0.013 92)` | cream ivory body |
+| `--bg-deep` / `--forest-deep` | `oklch(26% 0.052 155)` | deep forest vault: hero, Limited Edition band, footer |
+| `--surface` / `--raised` | `oklch(92.5%/97.5% …)` | warm paper panels |
+| `--ink` | `oklch(26% 0.012 80)` | charcoal text |
+| `--ink-soft` | `oklch(43% 0.018 85)` | secondary text (≥4.5:1 on ivory) |
+| `--ink-inverse(-soft)` | `oklch(94%/80% …)` | ivory text on green surfaces |
+| `--forest` | `oklch(34% 0.062 155)` | primary interactive green |
+| `--gold` / `--gold-ink` | `oklch(76%/54% 0.1+ ~92)` | gold accents; `-ink` variant reads on ivory |
+| `--burgundy` | `oklch(40% 0.125 15)` | links, active nav, accents |
+| `--champagne` | `oklch(86% 0.06 95)` | gold highlight on green |
 
-Strategy: **Drenched** near-black; gold ≤10% of surface, placed where a hand would touch. Gold-on-black band for Limited Edition is the one inversion.
+Strategy: ivory ground with **committed forest-green drenches** (hero vault, Limited Edition, footer) and burgundy interactive accents; gold stays where a hand would touch. Plates are engraved on cream paper (`#F2ECDD`) like bank-note etchings; gold detail ink `#A8842C`.
+
+## Commerce
+
+Catalog prices are USD; `data.js` converts at display via `Intl.NumberFormat` for **USD / EUR / INR** (`aurum.currency` in localStorage). Switchers live in the header and the dashboard (`account.html`). Checkout (`checkout.html`) is currency-aware — UPI/NetBanking rails for INR, SEPA for EUR, PayPal for USD, cards everywhere — with gateway stubs (`authorize()` in `checkout.js`) marked for Razorpay (INR) and Stripe (cards/EUR/USD). Orders persist to `aurum.orders` and render a tracking timeline in the dashboard.
 
 ## Typography
 

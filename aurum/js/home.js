@@ -53,9 +53,9 @@ const MATERIALS = [
   ["StormShell 3L", "A Swiss three-layer laminate: 28,000 mm waterproof, yet it breathes like poplin. Silent at full sprint.", "shell", "Zürich"],
 ];
 const SWATCH = {
-  merino: `<svg viewBox="0 0 80 80" role="img" aria-label="Merino weave swatch"><rect width="80" height="80" fill="#0B0A09"/><g stroke="#D4AF37" stroke-width="1" fill="none" opacity="0.8"><path d="M0 12 Q20 4 40 12 T80 12 M0 28 Q20 20 40 28 T80 28 M0 44 Q20 36 40 44 T80 44 M0 60 Q20 52 40 60 T80 60 M0 76 Q20 68 40 76 T80 76"/></g></svg>`,
-  recycled: `<svg viewBox="0 0 80 80" role="img" aria-label="Recycled knit swatch"><rect width="80" height="80" fill="#0B0A09"/><g stroke="#2F9E77" stroke-width="1" fill="none" opacity="0.85"><path d="M10 0 L10 80 M26 0 L26 80 M42 0 L42 80 M58 0 L58 80 M74 0 L74 80"/><path d="M0 20 L80 20 M0 40 L80 40 M0 60 L80 60" stroke="#EAE3D2" opacity="0.35"/></g></svg>`,
-  shell: `<svg viewBox="0 0 80 80" role="img" aria-label="StormShell laminate swatch"><rect width="80" height="80" fill="#0B0A09"/><g stroke="#5B7FD4" stroke-width="1" fill="none" opacity="0.85"><path d="M-10 20 L60 -10 M-10 45 L90 5 M-10 70 L90 30 M0 90 L90 55"/><circle cx="58" cy="56" r="12" stroke="#EAE3D2" opacity="0.4"/></g></svg>`,
+  merino: `<svg viewBox="0 0 80 80" role="img" aria-label="Merino weave swatch"><rect width="80" height="80" fill="#F2ECDD"/><g stroke="#A8842C" stroke-width="1" fill="none" opacity="0.9"><path d="M0 12 Q20 4 40 12 T80 12 M0 28 Q20 20 40 28 T80 28 M0 44 Q20 36 40 44 T80 44 M0 60 Q20 52 40 60 T80 60 M0 76 Q20 68 40 76 T80 76"/></g></svg>`,
+  recycled: `<svg viewBox="0 0 80 80" role="img" aria-label="Recycled knit swatch"><rect width="80" height="80" fill="#F2ECDD"/><g stroke="#1F5B41" stroke-width="1" fill="none" opacity="0.9"><path d="M10 0 L10 80 M26 0 L26 80 M42 0 L42 80 M58 0 L58 80 M74 0 L74 80"/><path d="M0 20 L80 20 M0 40 L80 40 M0 60 L80 60" stroke="#6E6A5C" opacity="0.4"/></g></svg>`,
+  shell: `<svg viewBox="0 0 80 80" role="img" aria-label="StormShell laminate swatch"><rect width="80" height="80" fill="#F2ECDD"/><g stroke="#2C4470" stroke-width="1" fill="none" opacity="0.9"><path d="M-10 20 L60 -10 M-10 45 L90 5 M-10 70 L90 30 M0 90 L90 55"/><circle cx="58" cy="56" r="12" stroke="#6E6A5C" opacity="0.45"/></g></svg>`,
 };
 document.getElementById("materials").innerHTML = MATERIALS.map(([name, copy, sw, origin], i) => `
   <div class="material-row reveal" ${i ? `data-stagger="${i}"` : ""}>

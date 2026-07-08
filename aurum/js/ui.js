@@ -1,6 +1,6 @@
 /* AURUM chrome — header/footer, cart & wishlist, search, drawers,
    reveals, toasts. Imported by every page. */
-import { ALL, byId, money } from "./data.js";
+import { ALL, byId, money, CURRENCIES, currentCurrency, setCurrency } from "./data.js";
 import { plate } from "./garments.js";
 
 document.documentElement.classList.add("js");
@@ -81,12 +81,23 @@ export function mountChrome({ current = "" } = {}) {
         ${NAV.map(([href, label]) => `<a href="${href}" ${current === label.toLowerCase() ? 'aria-current="page"' : ""}>${label}</a>`).join("")}
       </nav>
       <div class="header-actions">
+        <label class="currency-pick">
+          <span class="visually-hidden">Currency</span>
+          <select data-currency-select>
+            ${Object.entries(CURRENCIES).map(([code, c]) =>
+              `<option value="${code}" ${code === currentCurrency() ? "selected" : ""}>${c.label}</option>`).join("")}
+          </select>
+        </label>
         <button class="icon-btn" type="button" data-open-search aria-label="Search the house">${icon.search}</button>
         <button class="icon-btn" type="button" data-open-wishlist aria-label="Wishlist">${icon.heart}<span class="count" data-wish-count></span></button>
         <button class="icon-btn" type="button" data-open-cart aria-label="Cart">${icon.bag}<span class="count" data-cart-count></span></button>
-        <a class="icon-btn" href="membership.html" aria-label="Member profile">${icon.user}</a>
+        <a class="icon-btn" href="account.html" aria-label="Your dashboard">${icon.user}</a>
       </div>
     </div>`;
+    header.querySelector("[data-currency-select]").addEventListener("change", e => {
+      setCurrency(e.target.value);
+      location.reload();
+    });
     const onScroll = () => header.classList.toggle("scrolled", scrollY > 24);
     addEventListener("scroll", onScroll, { passive: true }); onScroll();
     const toggle = header.querySelector(".nav-toggle");
@@ -217,7 +228,7 @@ export function renderCart() {
     </div>`;
   }).join("") + `
     <div class="cart-total"><span class="prov">Total · duties included</span><strong>${money(total)}</strong></div>
-    <button class="btn btn-gold" type="button" data-checkout>Proceed to checkout</button>
+    <a class="btn btn-gold" href="checkout.html">Proceed to checkout</a>
     <p class="prov" style="text-align:center">Signature packaging &amp; certificate included</p>`;
 
   body.querySelectorAll("[data-qty]").forEach(b => b.addEventListener("click", () => {
@@ -227,9 +238,6 @@ export function renderCart() {
     if (c[i].qty <= 0) c.splice(i, 1);
     cartStore.set(c); syncBadges(); renderCart();
   }));
-  body.querySelector("[data-checkout]")?.addEventListener("click", () => {
-    toast("A concierge will complete your order — this maison is a showcase");
-  });
 }
 
 function renderWishlist() {
