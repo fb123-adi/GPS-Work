@@ -5,3 +5,10 @@ src/
 tsconfig*
 package*
 postcss*
+
+# AURUM Next.js project — keep its build config tracked
+!aurum/package.json
+!aurum/package-lock.json
+!aurum/tsconfig.json
+!aurum/next.config.ts
+!aurum/postcss.config.mjs
