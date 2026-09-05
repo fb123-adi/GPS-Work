@@ -802,10 +802,103 @@ dialog.search-overlay {
   @keyframes pageIn { from { opacity: 0; } to { opacity: 1; } }
 }
 
+/* ============================================================
+   CINEMATIC LAYER — smooth scroll, cursor, magnetism, depth
+   Progressive enhancement added by js/motion.js. Everything here
+   is inert until motion.js opts a page in (adds .lenis / .has-cursor).
+   ============================================================ */
+
+/* ---------- Lenis smooth scroll ---------- */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* ---------- Read-progress hairline ---------- */
+.scroll-progress {
+  position: fixed; inset: 0 0 auto 0; height: 2px; z-index: calc(var(--z-toast) + 1);
+  transform: scaleX(0); transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold) 55%, var(--champagne));
+  box-shadow: 0 0 12px -2px color-mix(in oklch, var(--gold) 60%, transparent);
+  will-change: transform; pointer-events: none;
+}
+
+/* ---------- Custom cursor ---------- */
+@media (hover: hover) and (pointer: fine) {
+  html.has-cursor, html.has-cursor * { cursor: none; }
+  html.has-cursor input, html.has-cursor textarea, html.has-cursor select,
+  html.has-cursor [contenteditable] { cursor: auto; }
+}
+.cursor-dot, .cursor-ring {
+  position: fixed; top: 0; left: 0; z-index: calc(var(--z-toast) + 2);
+  pointer-events: none; will-change: transform;
+}
+.cursor-dot {
+  width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%;
+  background: var(--gold-ink);
+  transition: opacity var(--t-med) var(--ease-out);
+}
+.cursor-ring {
+  width: 38px; height: 38px; margin: -19px 0 0 -19px; border-radius: 50%;
+  border: 1px solid color-mix(in oklch, var(--gold-ink) 65%, transparent);
+  display: grid; place-items: center;
+  transition: width var(--t-med) var(--ease-expo), height var(--t-med) var(--ease-expo),
+              background-color var(--t-med) var(--ease-out), border-color var(--t-med) var(--ease-out),
+              opacity var(--t-med) var(--ease-out);
+}
+.cursor-ring .cursor-label {
+  font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--champagne); opacity: 0; transition: opacity var(--t-fast) var(--ease-out);
+  font-family: var(--font-text); font-weight: 500;
+}
+.cursor-ring[data-state="link"] {
+  width: 56px; height: 56px; margin: -28px 0 0 -28px;
+  border-color: transparent; background: color-mix(in oklch, var(--gold) 22%, transparent);
+}
+.cursor-ring[data-state="view"] {
+  width: 74px; height: 74px; margin: -37px 0 0 -37px;
+  border-color: transparent; background: color-mix(in oklch, var(--forest-deep) 88%, transparent);
+  -webkit-backdrop-filter: blur(1px); backdrop-filter: blur(1px);
+}
+.cursor-ring[data-state="view"] .cursor-label { opacity: 1; }
+.cursor-ring.down { scale: 0.82; }
+
+/* ---------- Plate texture: a whisper of fabric grain ---------- */
+.plate::before {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  opacity: 0.05; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.plate .plate-shine { z-index: 2; }
+
+/* ---------- Plate hover: gentle inner push-in ---------- */
+.plate svg, .plate img, .plate video { transition: transform var(--t-slow) var(--ease-expo); transform-origin: 50% 45%; }
+.plate:hover svg, .plate:hover img, .plate:hover video { transform: scale(1.045); }
+
+/* Real photography / video slotting into the plate frame */
+.plate img, .plate video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.plate .plate-media { position: relative; display: block; aspect-ratio: 4 / 5; background: var(--raised); }
+.plate .plate-media .plate-video { position: absolute; inset: 0; opacity: 0; transition: opacity var(--t-med) var(--ease-out); }
+.plate:hover .plate-media .plate-video { opacity: 1; }
+.plate .plate-band {
+  position: absolute; inset: auto 0 0 0; display: flex; justify-content: space-between;
+  padding: 0.7rem 0.9rem; color: oklch(94% 0.014 90 / 0.9);
+  font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase;
+  background: linear-gradient(to top, oklch(18% 0.03 150 / 0.72), transparent);
+  pointer-events: none;
+}
+.plate .plate-band-o { color: var(--champagne); }
+
+/* Magnetic targets get their own compositor layer while interacted with */
+.btn-gold, .btn-dark, [data-magnetic] { will-change: transform; }
+
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   .js .hero-stage { opacity: 1; transform: none; }
   .scroll-cue svg { animation: none; }
+  .cursor-dot, .cursor-ring { display: none; }
+  .plate:hover svg, .plate:hover img, .plate:hover video { transform: none; }
 }

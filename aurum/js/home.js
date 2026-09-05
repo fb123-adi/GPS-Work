@@ -10,7 +10,7 @@ heroEntrance();
 const capsulePiece = ALL.find(p => p.capsule === "Signature Gold" && p.silhouette === "bomber")
   || ALL.find(p => p.capsule === "Signature Gold") || CATALOG.men[14];
 document.getElementById("capsule-plate").innerHTML =
-  `<a class="plate" href="product.html?id=${capsulePiece.id}" aria-label="${capsulePiece.name}, ${money(capsulePiece.price)}">${plate(capsulePiece)}<span class="plate-shine" aria-hidden="true"></span></a>`;
+  `<a class="plate" href="product.html?id=${capsulePiece.id}" aria-label="${capsulePiece.name}, ${money(capsulePiece.price)}">${plate(capsulePiece, { emboss: true })}<span class="plate-shine" aria-hidden="true"></span></a>`;
 
 /* Collection floors */
 const FLOOR_COPY = {

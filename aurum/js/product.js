@@ -40,7 +40,7 @@ function paintStage() {
     }).catch(fallbackStage);
   } else {
     viewer?.dispose(); viewer = null;
-    stage.innerHTML = plate(product, { colorway: cw, view: activeTab }) +
+    stage.innerHTML = plate(product, { colorway: cw, view: activeTab, emboss: true }) +
       `<span class="stage-note">${activeTab === "detail" ? "Engraving, 2.3× magnification" : "House plate, " + product.colorways[cw].name}</span>`;
   }
 }

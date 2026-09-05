@@ -2,6 +2,7 @@
    reveals, toasts. Imported by every page. */
 import { ALL, byId, money, CURRENCIES, currentCurrency, setCurrency } from "./data.js";
 import { plate } from "./garments.js";
+import { initMotion, motionScan } from "./motion.js";
 
 document.documentElement.classList.add("js");
 
@@ -166,6 +167,7 @@ export function mountChrome({ current = "" } = {}) {
   syncBadges();
   bindGlobalActions();
   revealObserver();
+  initMotion();
 }
 
 /* ---------- Drawers ---------- */
@@ -341,11 +343,13 @@ export function watchReveals(scope = document) {
   els.forEach(el => { el.dataset.revealWatched = "1"; revealIO.observe(el); });
   // Safety: nothing stays hidden if the observer misfires
   setTimeout(() => els.forEach(el => el.classList.add("in")), 2600);
+  motionScan(scope);
 }
 
 /* Re-arm reveals for late-rendered content: show immediately */
 export function armReveals(scope = document) {
   scope.querySelectorAll(".reveal:not(.in)").forEach(el => el.classList.add("in"));
+  motionScan(scope);
 }
 
 /* ---------- Hero entrance ---------- */

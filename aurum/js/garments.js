@@ -2,6 +2,8 @@
    Each product renders as hairline SVG line art on a lit graphite
    plinth. Deterministic per product; tinted by colorway. */
 
+import { imageFor } from "./images.js";
+
 const G = "#A8842C";          // gold detail ink (reads on paper)
 const GHOST = "rgba(43,42,38,0.22)";
 
@@ -277,11 +279,22 @@ export const silhouetteKeys = Object.keys(S);
 
 let uid = 0;
 
-/* Render one plate. product needs { silhouette, colorways, n } */
+/* Render one plate. product needs { silhouette, colorways, n }.
+   If a real photograph is registered for the product (js/images.js),
+   the frame shows the photo — with an optional muted hover video —
+   and falls back to the engraved plate otherwise. */
 export function plate(product, opts = {}) {
-  const cw = product.colorways[opts.colorway ?? 0] || product.colorways[0];
-  const draw = (S[product.silhouette] || FALLBACK.tee)(cw.stroke);
+  const cwIdx = opts.colorway ?? 0;
+  const cw = product.colorways[cwIdx] || product.colorways[0];
   const view = opts.view || "front";
+
+  // Real photography path (dormant until images.js is populated).
+  if (view === "front" && opts.photo !== false) {
+    const img = imageFor(product, cwIdx);
+    if (img) return photoPlate(product, img, opts);
+  }
+
+  const draw = (S[product.silhouette] || FALLBACK.tee)(cw.stroke);
   const id = `pl${++uid}`;
   const label = opts.alt ?? `${product.name} — engraved plate, ${cw.name} colorway`;
   let transform = "";
@@ -290,26 +303,64 @@ export function plate(product, opts = {}) {
   return `
   <svg viewBox="0 0 400 500" role="img" aria-label="${label}" ${opts.attrs || ""}>
     <defs>
-      <radialGradient id="${id}-spot" cx="50%" cy="30%" r="78%">
-        <stop offset="0%" stop-color="rgba(255,253,246,0.75)"/>
-        <stop offset="55%" stop-color="rgba(255,253,246,0)"/>
-        <stop offset="100%" stop-color="rgba(76,68,48,0.10)"/>
+      <radialGradient id="${id}-spot" cx="50%" cy="27%" r="82%">
+        <stop offset="0%" stop-color="rgba(255,253,247,0.92)"/>
+        <stop offset="42%" stop-color="rgba(252,247,236,0.35)"/>
+        <stop offset="72%" stop-color="rgba(252,247,236,0)"/>
+        <stop offset="100%" stop-color="rgba(70,60,38,0.16)"/>
       </radialGradient>
-      <linearGradient id="${id}-plinth" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="rgba(140,110,44,0.5)"/>
+      <radialGradient id="${id}-vig" cx="50%" cy="46%" r="72%">
+        <stop offset="60%" stop-color="rgba(40,36,24,0)"/>
+        <stop offset="100%" stop-color="rgba(40,36,24,0.16)"/>
+      </radialGradient>
+      <radialGradient id="${id}-pool" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="rgba(58,52,38,0.20)"/>
+        <stop offset="70%" stop-color="rgba(58,52,38,0.06)"/>
+        <stop offset="100%" stop-color="rgba(58,52,38,0)"/>
+      </radialGradient>
+      <linearGradient id="${id}-plinth" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="rgba(140,110,44,0)"/>
+        <stop offset="50%" stop-color="rgba(150,118,48,0.7)"/>
         <stop offset="100%" stop-color="rgba(140,110,44,0)"/>
       </linearGradient>
+      ${opts.emboss ? `<filter id="${id}-emb" x="-8%" y="-8%" width="116%" height="120%">
+        <feDropShadow dx="0" dy="1.4" stdDeviation="1.1" flood-color="rgba(52,44,26,0.34)"/>
+      </filter>` : ""}
     </defs>
-    <rect width="400" height="500" fill="#F2ECDD"/>
+    <rect width="400" height="500" fill="#F1EBDB"/>
     <rect width="400" height="500" fill="url(#${id}-spot)"/>
-    <ellipse cx="200" cy="446" rx="118" ry="10" fill="rgba(58,52,38,0.14)"/>
-    <path d="M82 446 L318 446" stroke="url(#${id}-plinth)" stroke-width="1.5"/>
-    <g fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ${transform}>
+    <ellipse cx="200" cy="452" rx="150" ry="26" fill="url(#${id}-pool)"/>
+    <ellipse cx="200" cy="448" rx="116" ry="9" fill="rgba(50,44,30,0.16)"/>
+    <path d="M60 448 L340 448" stroke="url(#${id}-plinth)" stroke-width="1.5"/>
+    <g fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ${opts.emboss ? `filter="url(#${id}-emb)"` : ""} ${transform}>
       ${draw}
     </g>
+    <rect width="400" height="500" fill="url(#${id}-vig)"/>
     <text x="24" y="478" font-family="Archivo, sans-serif" font-size="11" letter-spacing="2.5" fill="rgba(70,64,52,0.6)">AURUM · N&#186; ${String(product.n).padStart(3, "0")}</text>
-    <text x="376" y="478" text-anchor="end" font-family="Archivo, sans-serif" font-size="11" letter-spacing="2.5" fill="rgba(140,110,44,0.8)">${(product.origin || "").split(",")[0].toUpperCase()}</text>
+    <text x="376" y="478" text-anchor="end" font-family="Archivo, sans-serif" font-size="11" letter-spacing="2.5" fill="rgba(140,110,44,0.85)">${(product.origin || "").split(",")[0].toUpperCase()}</text>
   </svg>`;
+}
+
+/* Photograph rendered inside the exhibit frame, with the house caption
+   band and (optionally) a muted looping hover preview. */
+function photoPlate(product, img, opts = {}) {
+  const label = opts.alt ?? img.alt ?? `${product.name} — ${product.origin || ""}`.trim();
+  const pos = img.position ? `object-position:${img.position};` : "";
+  const srcset = img.srcset ? ` srcset="${img.srcset}"` : "";
+  const video = img.video
+    ? `<video class="plate-video" muted loop playsinline preload="none" aria-hidden="true"
+         onmouseenter="this.play&&this.play()" onmouseleave="this.pause&&this.pause()">
+         <source src="${img.video}" type="video/mp4"></video>`
+    : "";
+  return `
+  <span class="plate-media">
+    <img src="${img.src}"${srcset} alt="${label}" loading="lazy" decoding="async" style="${pos}">
+    ${video}
+    <span class="plate-band" aria-hidden="true">
+      <span>AURUM · N&#186; ${String(product.n).padStart(3, "0")}</span>
+      <span class="plate-band-o">${(product.origin || "").split(",")[0].toUpperCase()}</span>
+    </span>
+  </span>`;
 }
 
 /* Exhibit card (collection grids, rails). */
