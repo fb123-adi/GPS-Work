@@ -277,6 +277,95 @@ const S = {
 const FALLBACK = { tee: S.tee };
 export const silhouetteKeys = Object.keys(S);
 
+/* ------------------------------------------------------------
+   Rendered garments — filled, shaded, colorway-matched product
+   art (not hairline line-work). Each returns { defs, content }
+   namespaced by the plate's uid. Where a silhouette has a render
+   here, plate() uses it in place of the engraved line drawing;
+   silhouettes without one fall back to the S line-art. Volume is
+   built from white/black overlay gradients so it reads correctly
+   on any base colour, dark noir through ivory.
+   ------------------------------------------------------------ */
+const TEE_BODY = "M140 152 Q200 138 260 152 L296 178 Q306 190 300 204 L282 232 Q276 240 266 236 L252 224 L252 348 Q252 360 240 360 L160 360 Q148 360 148 348 L148 224 L134 236 Q124 240 118 232 L100 204 Q94 190 104 178 Z";
+const RENDER = {
+  tee: (cw, id) => {
+    const base = cw.hex, edge = cw.stroke;
+    return {
+      defs: `
+      <linearGradient id="${id}-hl" x1="0" y1="0" x2="0.12" y2="1">
+        <stop offset="0" stop-color="rgba(255,255,255,0.24)"/>
+        <stop offset="0.55" stop-color="rgba(255,255,255,0.03)"/>
+        <stop offset="1" stop-color="rgba(255,255,255,0)"/>
+      </linearGradient>
+      <linearGradient id="${id}-sh" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0.4" stop-color="rgba(20,17,10,0)"/>
+        <stop offset="1" stop-color="rgba(20,17,10,0.28)"/>
+      </linearGradient>
+      <clipPath id="${id}-bc"><path d="${TEE_BODY}"/></clipPath>`,
+      content: `
+      <g stroke-linejoin="round">
+        <path d="${TEE_BODY}" fill="${base}"/>
+        <g clip-path="url(#${id}-bc)">
+          <rect x="90" y="140" width="220" height="230" fill="url(#${id}-hl)"/>
+          <rect x="90" y="140" width="220" height="230" fill="url(#${id}-sh)"/>
+          <path d="M170 240 Q166 300 176 356" stroke="rgba(0,0,0,0.10)" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <path d="M230 240 Q234 300 224 356" stroke="rgba(0,0,0,0.10)" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <path d="M126 200 L112 224 M274 200 L288 224" stroke="rgba(0,0,0,0.12)" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <path d="M200 210 L200 356" stroke="rgba(255,255,255,0.06)" stroke-width="12" fill="none"/>
+        </g>
+        <path d="M172 150 Q200 172 228 150" stroke="${edge}" stroke-width="2" fill="none"/>
+        <path d="M172 150 Q200 166 228 150" stroke="rgba(0,0,0,0.14)" stroke-width="3" fill="none"/>
+        <path d="M196 196 L204 196 M200 192 L200 200" stroke="${G}" stroke-width="1.6" fill="none"/>
+        <path d="${TEE_BODY}" fill="none" stroke="${edge}" stroke-width="2"/>
+      </g>`,
+    };
+  },
+  hoodie: (cw, id) => {
+    const base = cw.hex, edge = cw.stroke;
+    const hood = "M158 152 Q200 92 242 152 Q238 180 200 182 Q162 180 158 152 Z";
+    return {
+      defs: `
+      <linearGradient id="${id}-hl" x1="0" y1="0" x2="0.15" y2="1">
+        <stop offset="0" stop-color="rgba(255,255,255,0.26)"/>
+        <stop offset="0.5" stop-color="rgba(255,255,255,0.04)"/>
+        <stop offset="1" stop-color="rgba(255,255,255,0)"/>
+      </linearGradient>
+      <linearGradient id="${id}-sh" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0.35" stop-color="rgba(30,26,18,0)"/>
+        <stop offset="1" stop-color="rgba(20,17,10,0.34)"/>
+      </linearGradient>
+      <radialGradient id="${id}-hoodg" cx="50%" cy="42%" r="62%">
+        <stop offset="0" stop-color="rgba(0,0,0,0.04)"/>
+        <stop offset="1" stop-color="rgba(0,0,0,0.36)"/>
+      </radialGradient>
+      <clipPath id="${id}-bc"><path d="${LONG_BODY}"/></clipPath>`,
+      content: `
+      <g stroke-linejoin="round">
+        <path d="${hood}" fill="${base}"/>
+        <path d="${hood}" fill="url(#${id}-hoodg)"/>
+        <path d="${LONG_BODY}" fill="${base}"/>
+        <g clip-path="url(#${id}-bc)">
+          <rect x="70" y="130" width="260" height="260" fill="url(#${id}-hl)"/>
+          <rect x="70" y="130" width="260" height="260" fill="url(#${id}-sh)"/>
+          <path d="M152 208 Q168 300 150 362" stroke="rgba(0,0,0,0.13)" stroke-width="11" fill="none" stroke-linecap="round"/>
+          <path d="M248 208 Q232 300 250 362" stroke="rgba(0,0,0,0.13)" stroke-width="11" fill="none" stroke-linecap="round"/>
+          <path d="M200 198 L200 360" stroke="rgba(0,0,0,0.10)" stroke-width="16" fill="none"/>
+          <path d="M178 206 Q200 232 222 206" stroke="rgba(255,255,255,0.12)" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <path d="M120 250 L110 300 M280 250 L290 300" stroke="rgba(0,0,0,0.12)" stroke-width="9" fill="none" stroke-linecap="round"/>
+        </g>
+        <path d="M150 300 L250 300 L250 350 Q200 366 150 350 Z" fill="none" stroke="${edge}" stroke-width="1.5" opacity="0.65"/>
+        <path d="M150 300 Q200 312 250 300" stroke="rgba(0,0,0,0.14)" stroke-width="1.5" fill="none"/>
+        <path d="M188 180 L186 236 M212 180 L214 236" stroke="${G}" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <circle cx="186" cy="238" r="2.6" fill="${G}"/>
+        <circle cx="214" cy="238" r="2.6" fill="${G}"/>
+        <path d="${HOOD_IN}" stroke="${edge}" stroke-width="2" fill="none"/>
+        <path d="${CUFFS}" stroke="rgba(0,0,0,0.22)" stroke-width="2" fill="none"/>
+        <path d="${LONG_BODY}" fill="none" stroke="${edge}" stroke-width="2"/>
+      </g>`,
+    };
+  },
+};
+
 let uid = 0;
 
 /* Render one plate. product needs { silhouette, colorways, n }.
@@ -294,12 +383,18 @@ export function plate(product, opts = {}) {
     if (img) return photoPlate(product, img, opts);
   }
 
-  const draw = (S[product.silhouette] || FALLBACK.tee)(cw.stroke);
   const id = `pl${++uid}`;
-  const label = opts.alt ?? `${product.name} — engraved plate, ${cw.name} colorway`;
+  // Rendered (filled/shaded) garment where one exists; else engraved line-art.
+  const renderFn = (view === "front" && opts.line !== true) ? RENDER[product.silhouette] : null;
+  const rendered = renderFn ? renderFn(cw, id) : null;
+  const draw = rendered ? "" : (S[product.silhouette] || FALLBACK.tee)(cw.stroke);
+  const label = opts.alt ?? `${product.name} — ${rendered ? "product rendering" : "engraved plate"}, ${cw.name} colorway`;
   let transform = "";
   if (view === "detail") transform = `transform="translate(-260 -220) scale(2.3)"`;
   if (view === "back") transform = `transform="translate(400 0) scale(-1 1)"`;
+  const garment = rendered
+    ? `<g ${transform}>${rendered.content}</g>`
+    : `<g fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ${opts.emboss ? `filter="url(#${id}-emb)"` : ""} ${transform}>${draw}</g>`;
   return `
   <svg viewBox="0 0 400 500" role="img" aria-label="${label}" ${opts.attrs || ""}>
     <defs>
@@ -326,15 +421,14 @@ export function plate(product, opts = {}) {
       ${opts.emboss ? `<filter id="${id}-emb" x="-8%" y="-8%" width="116%" height="120%">
         <feDropShadow dx="0" dy="1.4" stdDeviation="1.1" flood-color="rgba(52,44,26,0.34)"/>
       </filter>` : ""}
+      ${rendered ? rendered.defs : ""}
     </defs>
     <rect width="400" height="500" fill="#F1EBDB"/>
     <rect width="400" height="500" fill="url(#${id}-spot)"/>
     <ellipse cx="200" cy="452" rx="150" ry="26" fill="url(#${id}-pool)"/>
     <ellipse cx="200" cy="448" rx="116" ry="9" fill="rgba(50,44,30,0.16)"/>
     <path d="M60 448 L340 448" stroke="url(#${id}-plinth)" stroke-width="1.5"/>
-    <g fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ${opts.emboss ? `filter="url(#${id}-emb)"` : ""} ${transform}>
-      ${draw}
-    </g>
+    ${garment}
     <rect width="400" height="500" fill="url(#${id}-vig)"/>
     <text x="24" y="478" font-family="Archivo, sans-serif" font-size="11" letter-spacing="2.5" fill="rgba(70,64,52,0.6)">AURUM · N&#186; ${String(product.n).padStart(3, "0")}</text>
     <text x="376" y="478" text-anchor="end" font-family="Archivo, sans-serif" font-size="11" letter-spacing="2.5" fill="rgba(140,110,44,0.85)">${(product.origin || "").split(",")[0].toUpperCase()}</text>
