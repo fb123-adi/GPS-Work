@@ -1,0 +1,71 @@
+name: Kyveron CI
+
+on:
+  push:
+    paths: ["kyveron/**", ".github/workflows/kyveron-ci.yml"]
+  pull_request:
+    paths: ["kyveron/**", ".github/workflows/kyveron-ci.yml"]
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: kyveron
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/kyveron_test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/kyveron
+      SESSION_SECRET: ci-only-secret-ci-only-secret-ci-only-1234
+      APP_ENV: test
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: kyveron/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - name: Dependency audit (production deps, high+)
+        run: npm audit --omit=dev --audit-level=high
+      - run: npx eslint . --max-warnings=0
+      - run: npx tsc --noEmit
+      - name: Unit and integration tests (real Postgres)
+        run: npx vitest run
+      - name: Build
+        run: npm run build
+      - name: Migrate and seed for end-to-end tests
+        run: |
+          createdb -h localhost -U postgres kyveron
+          npx tsx scripts/migrate.ts
+          npx tsx scripts/seed.ts
+        env:
+          PGPASSWORD: postgres
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: End-to-end tests
+        run: |
+          npx next start -p 3000 &
+          for i in $(seq 60); do curl -sf http://localhost:3000/robots.txt >/dev/null && break; sleep 1; done
+          E2E_BASE_URL=http://localhost:3000 npx playwright test
+        env:
+          APP_ENV: development
+          APP_URL: http://localhost:3000
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: kyveron/test-results
