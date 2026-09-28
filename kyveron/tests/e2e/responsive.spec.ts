@@ -27,3 +27,14 @@ test("reduced motion shows the static hero with content visible", async ({ brows
   expect(await page.locator(".is-armed:not(.is-in)").count()).toBe(0);
   await ctx.close();
 });
+
+test("every scroll reveal completes after scrolling the home page", async ({ page }) => {
+  await page.goto("/", { waitUntil: "networkidle" });
+  const height = await page.evaluate(() => document.body.scrollHeight);
+  for (let y = 0; y < height; y += 300) {
+    await page.evaluate((v) => scrollTo(0, v), y);
+    await page.waitForTimeout(120);
+  }
+  await page.waitForTimeout(1200);
+  expect(await page.locator("[data-reveal].is-armed:not(.is-in)").count()).toBe(0);
+});

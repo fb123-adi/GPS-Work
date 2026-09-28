@@ -232,7 +232,11 @@ p { text-wrap: pretty; }
 [data-reveal].is-armed { opacity: 0; transform: translate3d(0, 18px, 0); }
 [data-reveal="scale"].is-armed { transform: scale(0.98); }
 [data-reveal="left"].is-armed { transform: translate3d(-24px, 0, 0); }
-[data-reveal="mask"].is-armed { opacity: 1; clip-path: inset(0 0 100% 0); transform: none; }
+/* Mask reveals clip the child, not the observed element: a fully clipped
+   target never reports as intersecting, so it would never reveal. */
+[data-reveal="mask"].is-armed { opacity: 1; transform: none; }
+[data-reveal="mask"].is-armed > * { clip-path: inset(0 0 100% 0); transition: clip-path var(--duration-page) var(--ease-smooth); }
+[data-reveal="mask"].is-armed.is-in > * { clip-path: inset(0 0 0 0); }
 [data-reveal].is-armed.is-in {
   opacity: 1; transform: none; clip-path: inset(0 0 0 0);
   transition: opacity var(--duration-slow) var(--ease-smooth), transform var(--duration-slow) var(--ease-smooth),
@@ -322,5 +326,5 @@ html.scroll-locked { overflow: hidden; }
     transition-delay: 0ms !important;
     scroll-behavior: auto !important;
   }
-  [data-reveal].is-armed { opacity: 1 !important; transform: none !important; clip-path: none !important; }
+  [data-reveal].is-armed, [data-reveal].is-armed > * { opacity: 1 !important; transform: none !important; clip-path: none !important; }
 }
