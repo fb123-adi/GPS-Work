@@ -1,4 +1,5 @@
-# Publishes the gh-pages branch to GitHub Pages.
+# Publishes the gh-pages branch to GitHub Pages (dashboard at /, AURUM at
+# /aurum/, Kyveron storefront at /kyveron/).
 # Runs from this branch because the github-pages environment's
 # deployment policy currently only allows this branch.
 name: Deploy gh-pages content to Pages
