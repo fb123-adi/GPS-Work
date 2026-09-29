@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SlidersHorizontal, X, ChevronDown, Grid3X3, LayoutGrid } from 'lucide-react';
-import { Reveal, ProductCard, ProductCardSkeleton } from '../components/Layout';
+import { Reveal, ProductCard, useDialog } from '../components/Layout';
 import { useDynamic } from '../lib/dynamicStore';
 import type { Category } from '../lib/types';
 
@@ -20,7 +20,6 @@ const SORT_OPTIONS = [
   { value: 'newest', label: 'Newest' },
   { value: 'price-asc', label: 'Price: Low to High' },
   { value: 'price-desc', label: 'Price: High to Low' },
-  { value: 'rating', label: 'Top Rated' },
 ];
 
 const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
@@ -37,7 +36,7 @@ export default function ShopPage() {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000000]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [gridCols, setGridCols] = useState(3);
-  const [isLoading, setIsLoading] = useState(false);
+  const filterRef = useDialog(isFilterOpen, () => setIsFilterOpen(false));
 
   const showNewOnly = searchParams.get('new') === 'true';
 
@@ -53,7 +52,6 @@ export default function ShopPage() {
       case 'newest': result.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0)); break;
       case 'price-asc': result.sort((a, b) => a.basePrice - b.basePrice); break;
       case 'price-desc': result.sort((a, b) => b.basePrice - a.basePrice); break;
-      case 'rating': result.sort((a, b) => b.rating - a.rating); break;
       default: result.sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0));
     }
     return result;
@@ -71,7 +69,7 @@ export default function ShopPage() {
       <Reveal>
         <div className="mb-8">
           <h1 className="text-3xl lg:text-4xl font-semibold tracking-[-0.02em] mb-2">{showNewOnly ? 'New Arrivals' : 'Shop All'}</h1>
-          <p className="text-[#AAA394] text-sm">{filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''}</p>
+          <p className="text-[#6B665B] text-sm" role="status" aria-live="polite">{filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''}</p>
         </div>
       </Reveal>
 
@@ -79,37 +77,37 @@ export default function ShopPage() {
       <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
         <div className="flex items-center gap-3">
           {/* Category Tabs */}
-          <div className="hidden md:flex items-center gap-1 bg-white/60 rounded-sm p-1">
+          <div className="hidden md:flex items-center gap-1 bg-white/60 rounded-sm p-1" role="group" aria-label="Category">
             {CATEGORIES.map(cat => (
-              <button key={cat.value} onClick={() => setCategory(cat.value)} className={`px-3 py-1.5 text-xs font-medium rounded-sm transition-colors ${category === cat.value ? 'bg-[#151515] text-white' : 'text-[#303238] hover:bg-[#AAA394]/10'}`}>
+              <button key={cat.value} onClick={() => setCategory(cat.value)} aria-pressed={category === cat.value} className={`px-3 py-1.5 text-xs font-medium rounded-sm transition-colors ${category === cat.value ? 'bg-[#151515] text-white' : 'text-[#303238] hover:bg-[#AAA394]/10'}`}>
                 {cat.label}
               </button>
             ))}
           </div>
           {/* Mobile filter button */}
-          <button onClick={() => setIsFilterOpen(true)} className="md:hidden flex items-center gap-2 px-3 py-2 border border-[#AAA394]/30 rounded-sm text-sm">
-            <SlidersHorizontal size={16} /> Filters {activeFilterCount > 0 && `(${activeFilterCount})`}
+          <button onClick={() => setIsFilterOpen(true)} aria-haspopup="dialog" className="md:hidden flex items-center gap-2 px-3 py-2 border border-[#8A8577] rounded-sm text-sm">
+            <SlidersHorizontal size={16} aria-hidden="true" /> Filters {activeFilterCount > 0 && `(${activeFilterCount})`}
           </button>
         </div>
         <div className="flex items-center gap-3">
           {/* Sort */}
           <div className="relative">
-            <select value={sort} onChange={(e) => setSort(e.target.value)} className="appearance-none pl-3 pr-8 py-2 bg-white/60 border border-[#AAA394]/30 rounded-sm text-sm cursor-pointer focus:outline-none focus:border-[#214C9A]">
+            <select aria-label="Sort products" value={sort} onChange={(e) => setSort(e.target.value)} className="appearance-none pl-3 pr-8 py-2 bg-white/60 border border-[#8A8577] rounded-sm text-sm cursor-pointer focus:border-[#214C9A]">
               {SORT_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
             </select>
-            <ChevronDown size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#AAA394]" />
+            <ChevronDown size={14} aria-hidden="true" className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#6B665B]" />
           </div>
           {/* Grid toggle */}
           <div className="hidden lg:flex items-center gap-1">
-            <button onClick={() => setGridCols(2)} className={`p-2 rounded-sm ${gridCols === 2 ? 'bg-[#151515] text-white' : 'text-[#AAA394] hover:text-[#151515]'}`} aria-label="2 columns"><LayoutGrid size={16} /></button>
-            <button onClick={() => setGridCols(3)} className={`p-2 rounded-sm ${gridCols === 3 ? 'bg-[#151515] text-white' : 'text-[#AAA394] hover:text-[#151515]'}`} aria-label="3 columns"><Grid3X3 size={16} /></button>
+            <button onClick={() => setGridCols(2)} aria-pressed={gridCols === 2} className={`p-2 rounded-sm ${gridCols === 2 ? 'bg-[#151515] text-white' : 'text-[#6B665B] hover:text-[#151515]'}`} aria-label="Show 2 columns"><LayoutGrid size={16} aria-hidden="true" /></button>
+            <button onClick={() => setGridCols(3)} aria-pressed={gridCols === 3} className={`p-2 rounded-sm ${gridCols === 3 ? 'bg-[#151515] text-white' : 'text-[#6B665B] hover:text-[#151515]'}`} aria-label="Show 3 columns"><Grid3X3 size={16} aria-hidden="true" /></button>
           </div>
         </div>
       </div>
 
       <div className="flex gap-8">
         {/* Desktop Sidebar Filters */}
-        <aside className="hidden md:block w-[220px] flex-shrink-0">
+        <aside className="hidden md:block w-[220px] flex-shrink-0" aria-label="Filters">
           <div className="sticky top-24 space-y-6">
             {/* Active filters */}
             {activeFilterCount > 0 && (
@@ -120,7 +118,7 @@ export default function ShopPage() {
               <h3 className="text-xs font-semibold uppercase tracking-wider mb-3">Size</h3>
               <div className="flex flex-wrap gap-2">
                 {SIZES.map(size => (
-                  <button key={size} onClick={() => toggleSize(size)} className={`px-2.5 py-1.5 text-xs border rounded-sm transition-colors ${selectedSizes.includes(size) ? 'bg-[#151515] text-white border-[#151515]' : 'border-[#AAA394]/30 text-[#303238] hover:border-[#303238]'}`}>
+                  <button key={size} onClick={() => toggleSize(size)} aria-pressed={selectedSizes.includes(size)} className={`px-2.5 py-1.5 text-xs border rounded-sm transition-colors ${selectedSizes.includes(size) ? 'bg-[#151515] text-white border-[#151515]' : 'border-[#8A8577] text-[#303238] hover:border-[#303238]'}`}>
                     {size}
                   </button>
                 ))}
@@ -146,7 +144,7 @@ export default function ShopPage() {
           {filteredProducts.length === 0 ? (
             <div className="text-center py-16">
               <p className="text-lg font-medium text-[#303238] mb-2">No products found</p>
-              <p className="text-sm text-[#AAA394] mb-4">Try adjusting your filters or browse all products.</p>
+              <p className="text-sm text-[#6B665B] mb-4">Try adjusting your filters or browse all products.</p>
               <button onClick={clearFilters} className="text-sm text-[#214C9A] hover:underline font-medium">Clear filters</button>
             </div>
           ) : (
@@ -165,18 +163,18 @@ export default function ShopPage() {
       <AnimatePresence>
         {isFilterOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[60] md:hidden">
-            <div className="absolute inset-0 bg-black/40" onClick={() => setIsFilterOpen(false)} />
-            <motion.div initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'tween', duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className="absolute bottom-0 left-0 right-0 bg-[#F2EEE6] rounded-t-xl p-6 max-h-[80vh] overflow-y-auto">
+            <div className="absolute inset-0 bg-black/40" onClick={() => setIsFilterOpen(false)} aria-hidden="true" />
+            <motion.div ref={filterRef} role="dialog" aria-modal="true" aria-labelledby="filter-title" tabIndex={-1} initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'tween', duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className="absolute bottom-0 left-0 right-0 bg-[#F2EEE6] rounded-t-xl p-6 max-h-[80vh] overflow-y-auto">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-semibold">Filters</h2>
-                <button onClick={() => setIsFilterOpen(false)}><X size={20} /></button>
+                <h2 id="filter-title" className="text-lg font-semibold">Filters</h2>
+                <button onClick={() => setIsFilterOpen(false)} aria-label="Close filters"><X size={20} aria-hidden="true" /></button>
               </div>
               {/* Categories */}
               <div className="mb-6">
                 <h3 className="text-xs font-semibold uppercase tracking-wider mb-3">Category</h3>
                 <div className="flex flex-wrap gap-2">
                   {CATEGORIES.map(cat => (
-                    <button key={cat.value} onClick={() => setCategory(cat.value)} className={`px-3 py-1.5 text-xs border rounded-sm transition-colors ${category === cat.value ? 'bg-[#151515] text-white border-[#151515]' : 'border-[#AAA394]/30'}`}>
+                    <button key={cat.value} onClick={() => setCategory(cat.value)} aria-pressed={category === cat.value} className={`px-3 py-1.5 text-xs border rounded-sm transition-colors ${category === cat.value ? 'bg-[#151515] text-white border-[#151515]' : 'border-[#8A8577]'}`}>
                       {cat.label}
                     </button>
                   ))}
@@ -187,7 +185,7 @@ export default function ShopPage() {
                 <h3 className="text-xs font-semibold uppercase tracking-wider mb-3">Size</h3>
                 <div className="flex flex-wrap gap-2">
                   {SIZES.map(size => (
-                    <button key={size} onClick={() => toggleSize(size)} className={`px-3 py-1.5 text-xs border rounded-sm transition-colors ${selectedSizes.includes(size) ? 'bg-[#151515] text-white border-[#151515]' : 'border-[#AAA394]/30'}`}>
+                    <button key={size} onClick={() => toggleSize(size)} aria-pressed={selectedSizes.includes(size)} className={`px-3 py-1.5 text-xs border rounded-sm transition-colors ${selectedSizes.includes(size) ? 'bg-[#151515] text-white border-[#151515]' : 'border-[#8A8577]'}`}>
                       {size}
                     </button>
                   ))}
@@ -206,7 +204,7 @@ export default function ShopPage() {
                 </div>
               </div>
               <div className="flex gap-3 pt-4">
-                <button onClick={clearFilters} className="flex-1 py-3 border border-[#AAA394]/30 rounded-sm text-sm font-medium">Clear All</button>
+                <button onClick={clearFilters} className="flex-1 py-3 border border-[#8A8577] rounded-sm text-sm font-medium">Clear All</button>
                 <button onClick={() => setIsFilterOpen(false)} className="flex-1 py-3 bg-[#151515] text-white rounded-sm text-sm font-medium">Apply Filters</button>
               </div>
             </motion.div>

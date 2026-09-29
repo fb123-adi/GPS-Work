@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your Kyveron order {{order_number}}</title>
+</head>
+<body style="margin:0;padding:0;background:#F2EEE6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#151515;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F2EEE6;">
+    <tr><td align="center" style="padding:32px 16px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#FFFFFF;">
+        <tr><td style="padding:28px 32px;font-size:20px;font-weight:600;letter-spacing:-0.02em;">KYVERON</td></tr>
+        <tr><td style="padding:0 32px 24px;font-size:16px;line-height:1.6;">
+          <p>Hi {{first_name}}, thanks for your order <strong>{{order_number}}</strong>.</p>
+          {{items_table}}
+          <p>Items {{subtotal}} &middot; Discount {{discount}} &middot; Delivery {{shipping}} &middot; Cash on delivery fee {{cod_fee}}<br>
+          <strong>Total {{total}}</strong> (includes GST of {{gst}})</p>
+          <p>Delivering to: {{address}}</p>
+          <p><a href="{{site_url}}/#/track-order" style="color:#214C9A;">Track your order</a> &middot; <a href="{{site_url}}/#/refund-policy" style="color:#214C9A;">Returns and refunds</a></p>
+        </td></tr>
+        <tr><td style="padding:24px 32px;border-top:1px solid #E2DDD3;font-size:12px;line-height:1.6;color:#55524B;">
+          This is a service email about your order, so it's sent whatever your marketing preferences.<br>
+          {{legal_name}}, {{registered_address}} &middot; GSTIN {{gstin}}<br>
+          Questions: {{support_email}} &middot; Grievance Officer: {{grievance_officer_name}}, {{grievance_officer_email}}
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>

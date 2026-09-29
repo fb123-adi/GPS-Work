@@ -9,7 +9,9 @@
   --color-obsidian: #151515;
   --color-ivory: #F2EEE6;
   --color-graphite: #303238;
-  --color-stone: #AAA394;
+  --color-stone: #AAA394; /* decorative & on dark backgrounds only: 2.2:1 on ivory */
+  --color-stone-ink: #6B665B; /* secondary text on light backgrounds: 4.9:1 on ivory */
+  --color-field-border: #8A8577; /* form-control borders: 3.2:1 on ivory */
   --color-cobalt: #214C9A;
 
   /* Motion Tokens */
@@ -22,8 +24,7 @@
   --duration-page: 800ms;
 
   /* Typography */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-display: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 /* ===== Base Styles ===== */

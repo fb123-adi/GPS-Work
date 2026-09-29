@@ -1,5 +1,9 @@
 # Kyveron — Premium Indian Apparel E-Commerce
 
+> **Before launch:** fill in every `[placeholder]` in `src/lib/business.ts` and read
+> [`COMPLIANCE.md`](COMPLIANCE.md) for the status of the legal, privacy, accessibility and
+> consumer-protection checklist. Email templates with unsubscribe links are in [`emails/`](emails/).
+
 ## Architecture Overview
 
 ### Stack
@@ -525,7 +529,7 @@ The entire website is fully dynamic. Through the admin panel, you can edit:
 | **Homepage** | Edit hero title/subtitle/image, featured section text, performance banner, brand story, newsletter section |
 | **Journal** | Add, edit, delete blog posts with titles, content, cover images, tags |
 | **FAQs** | Add, edit, delete FAQ items |
-| **Reviews** | Add customer reviews, delete reviews |
+| **Reviews** | Moderate (remove unlawful/abusive/spam) reviews. Staff can't write reviews |
 | **Coupons** | Add, edit, delete discount coupons (percentage/fixed, min cart value, dates, usage limits) |
 | **Settings** | Brand name, support email/phone, WhatsApp, shipping thresholds, return window, GST rate, currency |
 
@@ -559,8 +563,7 @@ The entire website is fully dynamic. Through the admin panel, you can edit:
 - **Deep Cobalt**: `#214C9A` — Accent, links, selected states
 
 ### Typography
-- **Primary**: Inter (300-700) — Body, UI
-- **Display**: Playfair Display (400-600) — Editorial headings (optional)
+- **Primary**: Inter (variable, self-hosted via `@fontsource-variable/inter`, SIL OFL 1.1) — Body, UI
 
 ### Motion Tokens
 ```css

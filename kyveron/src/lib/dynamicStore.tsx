@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer, useCallback, ReactNode, useEffect } from 'react';
-import { Product, Collection, Review, JournalPost, Coupon, Category, Currency, formatPrice as formatPriceUtil } from './types';
+import { Product, Collection, Review, JournalPost, Coupon, Currency, formatPrice as formatPriceUtil } from './types';
+import { BUSINESS } from './business';
 
 // ===== Image Assets =====
 export const IMAGES = {
@@ -35,26 +36,26 @@ function generateVariants(basePrice: number, colors: string[]) {
 const defaultProducts: Product[] = [
   {
     id: 'prod-001', slug: 'obsidian-performance-tee', name: 'Obsidian Performance Tee',
-    description: 'Crafted from premium combed cotton with moisture-wicking technology, the Obsidian Performance Tee is engineered for those who demand excellence in every movement. The heavyweight 220 GSM fabric drapes with intention—structured enough to hold its shape through training, refined enough for daily wear.',
-    shortDescription: 'Premium heavyweight cotton performance tee with moisture-wicking technology.',
+    description: 'A heavyweight combed-cotton tee cut for training and everyday wear. The 220 GSM fabric has enough structure to keep its shape, with a slightly dropped hem.',
+    shortDescription: 'Heavyweight combed-cotton tee with a slightly dropped hem.',
     category: 't-shirts', collection: 'core-performance', gender: 'unisex',
-    fabric: '220 GSM Combed Cotton Blend with Moisture-Wicking Finish',
+    fabric: '220 GSM combed cotton blend',
     careInstructions: ['Machine wash cold with like colors', 'Do not bleach', 'Tumble dry low', 'Iron on low heat if needed'],
     fit: 'Regular athletic fit with slightly dropped hem',
     seoTitle: 'Obsidian Performance Tee | Premium Cotton T-Shirt | Kyveron',
-    seoDescription: 'Premium heavyweight cotton performance tee.',
+    seoDescription: 'Heavyweight 220 GSM combed-cotton tee.',
     images: [
       { id: 'img-001-1', url: IMAGES.blackTee.front, alt: 'Black heavyweight cotton performance t-shirt, front view', order: 1, type: 'front' },
       { id: 'img-001-2', url: IMAGES.blackTee.detail, alt: 'Close-up of premium cotton fabric texture', order: 2, type: 'detail' },
     ],
     variants: generateVariants(249900, ['Black', 'Charcoal']),
-    basePrice: 249900, compareAtPrice: 299900, isFeatured: true, isNew: false, isPublished: true,
-    stockTotal: 150, rating: 4.7, reviewCount: 124,
-    tags: ['bestseller', 'performance'], colors: ['Black', 'Charcoal'], sizes: SIZES,
+    basePrice: 249900, isFeatured: true, isNew: false, isPublished: true,
+    stockTotal: 150, rating: 0, reviewCount: 0,
+    tags: ['performance'], colors: ['Black', 'Charcoal'], sizes: SIZES,
   },
   {
     id: 'prod-002', slug: 'midnight-track-jacket', name: 'Midnight Track Jacket',
-    description: 'The Midnight Track Jacket merges technical precision with refined aesthetics. Constructed from a lightweight nylon-spandex blend with a subtle matte finish, it moves with you—whether you are heading to a session or navigating the city.',
+    description: 'A lightweight track jacket in a nylon-spandex blend with a matte finish, raglan sleeves, a stand collar and zipped pockets.',
     shortDescription: 'Lightweight technical track jacket with raglan sleeves and stand collar.',
     category: 'jackets', collection: 'core-performance', gender: 'men',
     fabric: 'Technical Nylon-Spandex Blend, 140 GSM',
@@ -65,12 +66,12 @@ const defaultProducts: Product[] = [
     images: [{ id: 'img-002-1', url: IMAGES.navyJacket.front, alt: 'Navy blue lightweight zip-up track jacket', order: 1, type: 'front' }],
     variants: generateVariants(499900, ['Navy', 'Black']),
     basePrice: 499900, isFeatured: true, isNew: true, isPublished: true,
-    stockTotal: 80, rating: 4.8, reviewCount: 67,
+    stockTotal: 80, rating: 0, reviewCount: 0,
     tags: ['new-arrival', 'performance'], colors: ['Navy', 'Black'], sizes: SIZES,
   },
   {
     id: 'prod-003', slug: 'ivory-classic-polo', name: 'Ivory Classic Polo',
-    description: 'The Ivory Classic Polo redefines the everyday essential. Cut from premium pique cotton with a subtle textured hand-feel, it balances structure with softness.',
+    description: 'A pique cotton polo with a two-button placket, ribbed collar and a tailored fit.',
     shortDescription: 'Premium pique cotton polo with textured finish and tailored fit.',
     category: 'polos', collection: 'daily-luxury', gender: 'men',
     fabric: 'Premium Pique Cotton, 200 GSM',
@@ -81,12 +82,12 @@ const defaultProducts: Product[] = [
     images: [{ id: 'img-003-1', url: IMAGES.whitePolo.front, alt: 'White premium pique cotton polo shirt', order: 1, type: 'front' }],
     variants: generateVariants(299900, ['White', 'Stone', 'Navy']),
     basePrice: 299900, isFeatured: true, isNew: false, isPublished: true,
-    stockTotal: 120, rating: 4.6, reviewCount: 89,
+    stockTotal: 120, rating: 0, reviewCount: 0,
     tags: ['classic', 'daily-wear'], colors: ['White', 'Stone', 'Navy'], sizes: SIZES,
   },
   {
     id: 'prod-004', slug: 'graphite-tailored-jogger', name: 'Graphite Tailored Jogger',
-    description: 'Engineered for movement, refined for the street. The Graphite Tailored Jogger is cut from premium French terry with a brushed interior.',
+    description: 'A French terry jogger with a brushed interior, tapered leg, elasticated waistband and internal drawcord.',
     shortDescription: 'Premium French terry jogger with tapered leg and brushed interior.',
     category: 'joggers', collection: 'daily-luxury', gender: 'unisex',
     fabric: 'Premium French Terry Cotton, 320 GSM, Brushed Interior',
@@ -96,14 +97,14 @@ const defaultProducts: Product[] = [
     seoDescription: 'Premium French terry jogger pants.',
     images: [{ id: 'img-004-1', url: IMAGES.charcoalJoggers.front, alt: 'Charcoal grey tailored jogger pants', order: 1, type: 'front' }],
     variants: generateVariants(349900, ['Charcoal', 'Black', 'Stone']),
-    basePrice: 349900, compareAtPrice: 399900, isFeatured: true, isNew: false, isPublished: true,
-    stockTotal: 100, rating: 4.9, reviewCount: 156,
-    tags: ['bestseller', 'comfort'], colors: ['Charcoal', 'Black', 'Stone'], sizes: SIZES,
+    basePrice: 349900, isFeatured: true, isNew: false, isPublished: true,
+    stockTotal: 100, rating: 0, reviewCount: 0,
+    tags: ['comfort'], colors: ['Charcoal', 'Black', 'Stone'], sizes: SIZES,
   },
   {
     id: 'prod-005', slug: 'cobalt-training-tee', name: 'Cobalt Training Tee',
-    description: 'Purpose-built for high-intensity training. The Cobalt Training Tee uses a technical polyester-elastane blend with mesh ventilation panels.',
-    shortDescription: 'Technical training tee with mesh ventilation and reinforced construction.',
+    description: 'A training tee in a polyester-elastane blend with mesh side panels and a slightly longer back hem.',
+    shortDescription: 'Polyester-elastane training tee with mesh side panels.',
     category: 't-shirts', collection: 'core-performance', gender: 'unisex',
     fabric: 'Technical Polyester-Elastane Blend with Mesh Panels, 150 GSM',
     careInstructions: ['Machine wash cold', 'Hang dry recommended', 'Do not iron'],
@@ -113,12 +114,12 @@ const defaultProducts: Product[] = [
     images: [{ id: 'img-005-1', url: IMAGES.cobaltTee.front, alt: 'Deep cobalt blue performance training t-shirt', order: 1, type: 'front' }],
     variants: generateVariants(199900, ['Cobalt Blue', 'Black', 'White']),
     basePrice: 199900, isFeatured: false, isNew: true, isPublished: true,
-    stockTotal: 200, rating: 4.5, reviewCount: 43,
+    stockTotal: 200, rating: 0, reviewCount: 0,
     tags: ['new-arrival', 'training'], colors: ['Cobalt Blue', 'Black', 'White'], sizes: SIZES,
   },
   {
     id: 'prod-006', slug: 'stone-heritage-hoodie', name: 'Stone Heritage Hoodie',
-    description: 'The Stone Heritage Hoodie is an exercise in considered comfort. Cut from premium brushed fleece cotton at 380 GSM.',
+    description: 'A 380 GSM brushed-fleece cotton hoodie with a double-layered hood, kangaroo pocket and ribbed cuffs and hem.',
     shortDescription: 'Premium heavyweight brushed fleece hoodie with double-layered hood.',
     category: 'hoodies', collection: 'daily-luxury', gender: 'unisex',
     fabric: 'Premium Brushed Fleece Cotton, 380 GSM',
@@ -129,18 +130,18 @@ const defaultProducts: Product[] = [
     images: [{ id: 'img-006-1', url: IMAGES.stoneHoodie.front, alt: 'Stone beige heavyweight cotton hoodie', order: 1, type: 'front' }],
     variants: generateVariants(399900, ['Stone', 'Black', 'Charcoal']),
     basePrice: 399900, isFeatured: false, isNew: true, isPublished: true,
-    stockTotal: 60, rating: 4.8, reviewCount: 78,
+    stockTotal: 60, rating: 0, reviewCount: 0,
     tags: ['premium', 'comfort'], colors: ['Stone', 'Black', 'Charcoal'], sizes: SIZES,
   },
 ];
 
 const defaultCollections: Collection[] = [
-  { id: 'col-001', slug: 'core-performance', name: 'Core Performance', description: 'Engineered for movement. Technical fabrics, precise construction, and a refined silhouette.', bannerImage: IMAGES.lifestyle, productCount: 3 },
-  { id: 'col-002', slug: 'daily-luxury', name: 'Daily Luxury', description: 'Premium materials, considered design, everyday versatility.', bannerImage: IMAGES.brandStory, productCount: 3 },
+  { id: 'col-001', slug: 'core-performance', name: 'Core Performance', description: 'Training and track pieces: tees and a track jacket cut for movement.', bannerImage: IMAGES.lifestyle, productCount: 3 },
+  { id: 'col-002', slug: 'daily-luxury', name: 'Daily Luxury', description: 'Everyday pieces: polo, jogger and hoodie.', bannerImage: IMAGES.brandStory, productCount: 3 },
 ];
 
 const defaultJournalPosts: JournalPost[] = [
-  { id: 'post-001', slug: 'the-art-of-fabric-selection', title: 'The Art of Fabric Selection', excerpt: 'How we source and test every material before it becomes part of a Kyveron garment.', content: 'Every Kyveron garment begins with a question: what does this fabric need to do? Before we select a material, we define its purpose—how it should drape, how it should move, how it should age.', coverImage: IMAGES.brandStory, author: 'Kyveron Design Team', publishedAt: '2024-12-01', tags: ['craftsmanship', 'materials'] },
+  { id: 'post-001', slug: 'the-art-of-fabric-selection', title: 'The Art of Fabric Selection', excerpt: 'How we think about choosing materials for a Kyveron garment.', content: 'Every Kyveron garment begins with a question: what does this fabric need to do? Before we choose a material, we decide how it should drape, move and age.', coverImage: IMAGES.brandStory, author: 'Kyveron Design Team', publishedAt: '2024-12-01', tags: ['craftsmanship', 'materials'] },
   { id: 'post-002', slug: 'designing-for-movement', title: 'Designing for Movement', excerpt: 'The engineering decisions behind garments that move with you, not against you.', content: 'Performance apparel should disappear during activity. When you are training, the last thing you should think about is what you are wearing.', coverImage: IMAGES.lifestyle, author: 'Kyveron Design Team', publishedAt: '2024-11-15', tags: ['design', 'performance'] },
 ];
 
@@ -165,23 +166,22 @@ interface HomepageContent {
 
 const defaultHomepage: HomepageContent = {
   heroTitle: 'Engineered for\nthose who move\nwith intention.',
-  heroSubtitle: 'Luxurious daily wear and performance sportswear. Premium fabrics, precise construction, considered design.',
+  heroSubtitle: 'Daily wear and sportswear, designed with care.',
   heroImage: IMAGES.hero,
   heroBadge: 'Premium Indian Apparel',
   featuredTitle: 'Featured Products',
   featuredSubtitle: 'Curated Selection',
   performanceTitle: 'Built for movement.\nRefined for life.',
   performanceSubtitle: 'Core Performance',
-  performanceDescription: 'Technical fabrics meet considered design. Every garment in our Performance collection is engineered to move with you—whether you are training or navigating the city.',
+  performanceDescription: 'Tees and a track jacket cut for training and for the rest of the day.',
   performanceImage: IMAGES.lifestyle,
   storyTitle: 'Every detail,\nconsidered.',
   storySubtitle: 'Our Philosophy',
   storyParagraphs: [
-    'At Kyveron, we believe premium apparel is not about excess—it is about intention. Every fabric is selected for its performance and hand-feel. Every seam is placed with purpose. Every garment is designed to last.',
-    'We source the finest materials, test rigorously, and construct with care. The result is apparel that performs when you need it to and feels considered when you wear it.',
+    'At Kyveron, we believe good apparel is about intention, not excess. We choose each fabric for how it feels and wears, and we list fabric weight, fit and care on every product.',
   ],
   newsletterTitle: 'Stay in the loop',
-  newsletterSubtitle: 'Be the first to know about new collections, exclusive offers, and stories from our workshop.',
+  newsletterSubtitle: 'Occasional emails about new collections and offers. Unsubscribe at any time.',
 };
 
 // ===== FAQ Items =====
@@ -194,18 +194,15 @@ interface FAQItem {
 const defaultFAQs: FAQItem[] = [
   { id: 'faq-1', question: 'What is your shipping timeline?', answer: 'Orders are processed within 1-2 business days. Delivery typically takes 3-5 business days for metro cities and 5-7 business days for other locations.' },
   { id: 'faq-2', question: 'Do you offer free shipping?', answer: 'Yes, we offer free shipping on all orders above ₹999. For orders below this amount, a flat shipping fee of ₹99 applies.' },
-  { id: 'faq-3', question: 'What payment methods do you accept?', answer: 'We accept UPI (GPay, PhonePe, Paytm), credit/debit cards, net banking, wallets, and cash on delivery.' },
-  { id: 'faq-4', question: 'How do I track my order?', answer: 'You can track your order using the "Track Order" page with your order number, or through the link sent to your email after dispatch.' },
+  { id: 'faq-3', question: 'What payment methods do you accept?', answer: 'Once online payments go live we plan to accept UPI, credit/debit cards, net banking, wallets and cash on delivery (a ₹49 fee applies to cash on delivery, shown before you place the order). This preview store does not take payments yet.' },
+  { id: 'faq-4', question: 'How do I track my order?', answer: 'You can track your order on the "Track Order" page using your order number.' },
   { id: 'faq-5', question: 'What is your return policy?', answer: 'We offer a 7-day return window from the date of delivery. Items must be unused with original tags.' },
-  { id: 'faq-6', question: 'How do I choose the right size?', answer: 'Each product page has a detailed size guide with measurements in inches. If between sizes, we recommend sizing up for a relaxed fit.' },
+  { id: 'faq-6', question: 'How do I choose the right size?', answer: 'Each product page has a size guide with measurements in inches. If you are between sizes, size up for a relaxed fit.' },
 ];
 
 // ===== Reviews =====
-const defaultReviews: Review[] = [
-  { id: 'rev-001', productId: 'prod-001', userId: 'u1', userName: 'Arjun M.', rating: 5, title: 'Best tee I own', body: 'The fabric quality is exceptional. Fits perfectly and holds shape after multiple washes.', isVerified: true, createdAt: '2024-11-15' },
-  { id: 'rev-002', productId: 'prod-004', userId: 'u2', userName: 'Rahul K.', rating: 5, title: 'Perfect joggers', body: 'The brushed interior is incredibly comfortable. Tapered fit looks sharp.', isVerified: true, createdAt: '2024-12-01' },
-  { id: 'rev-003', productId: 'prod-006', userId: 'u3', userName: 'Vikram T.', rating: 5, title: 'Heavyweight perfection', body: '380 GSM fleece is no joke. This hoodie has real substance.', isVerified: true, createdAt: '2024-12-15' },
-];
+// Only genuine customer reviews belong here; none have been collected yet.
+const defaultReviews: Review[] = [];
 
 // ===== Coupons =====
 const defaultCoupons: Coupon[] = [
@@ -223,19 +220,21 @@ interface SiteSettings {
   serviceHours: string;
   freeShippingThreshold: number;
   shippingCharge: number;
+  codFee: number;
   returnWindowDays: number;
   currency: Currency;
   gstRate: number;
 }
 
 const defaultSettings: SiteSettings = {
-  brandName: 'KYVERON',
-  supportEmail: 'support@kyveron.in',
-  supportPhone: '+91 98765 43210',
-  whatsapp: '+91 98765 43210',
-  serviceHours: 'Mon–Sat, 10am–7pm IST',
+  brandName: BUSINESS.brandName,
+  supportEmail: BUSINESS.supportEmail,
+  supportPhone: BUSINESS.supportPhone,
+  whatsapp: BUSINESS.supportPhone,
+  serviceHours: BUSINESS.serviceHours,
   freeShippingThreshold: 99900,
   shippingCharge: 9900,
+  codFee: 4900,
   returnWindowDays: 7,
   currency: 'INR',
   gstRate: 5,
@@ -260,10 +259,13 @@ const ADMIN_EMAIL = 'admin@kyveron.in';
 const ADMIN_PASSWORD = 'Kyveron@Admin2024!';
 
 // ===== Persistence =====
-const STORAGE_KEY = 'kyveron_dynamic_data';
+// v2: catalogue without the placeholder reviews, ratings and reference prices of v1.
+const STORAGE_KEY = 'kyveron_dynamic_data_v2';
+const LEGACY_STORAGE_KEYS = ['kyveron_dynamic_data'];
 
 function loadState(): DynamicState {
   try {
+    LEGACY_STORAGE_KEYS.forEach(k => localStorage.removeItem(k));
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
@@ -275,7 +277,7 @@ function loadState(): DynamicState {
         faqs: parsed.faqs || defaultFAQs,
         reviews: parsed.reviews || defaultReviews,
         coupons: parsed.coupons || defaultCoupons,
-        settings: parsed.settings || defaultSettings,
+        settings: { ...defaultSettings, ...parsed.settings },
         isAdminLoggedIn: false,
         adminUser: null,
       };
@@ -322,7 +324,6 @@ type DynAction =
   | { type: 'UPDATE_FAQ'; payload: FAQItem }
   | { type: 'DELETE_FAQ'; payload: string }
   | { type: 'SET_REVIEWS'; payload: Review[] }
-  | { type: 'ADD_REVIEW'; payload: Review }
   | { type: 'DELETE_REVIEW'; payload: string }
   | { type: 'SET_COUPONS'; payload: Coupon[] }
   | { type: 'ADD_COUPON'; payload: Coupon }
@@ -354,7 +355,6 @@ function dynReducer(state: DynamicState, action: DynAction): DynamicState {
     case 'UPDATE_FAQ': newState = { ...state, faqs: state.faqs.map(f => f.id === action.payload.id ? action.payload : f) }; break;
     case 'DELETE_FAQ': newState = { ...state, faqs: state.faqs.filter(f => f.id !== action.payload) }; break;
     case 'SET_REVIEWS': newState = { ...state, reviews: action.payload }; break;
-    case 'ADD_REVIEW': newState = { ...state, reviews: [...state.reviews, action.payload] }; break;
     case 'DELETE_REVIEW': newState = { ...state, reviews: state.reviews.filter(r => r.id !== action.payload) }; break;
     case 'SET_COUPONS': newState = { ...state, coupons: action.payload }; break;
     case 'ADD_COUPON': newState = { ...state, coupons: [...state.coupons, action.payload] }; break;
@@ -363,7 +363,9 @@ function dynReducer(state: DynamicState, action: DynAction): DynamicState {
     case 'UPDATE_SETTINGS': newState = { ...state, settings: { ...state.settings, ...action.payload } }; break;
     case 'ADMIN_LOGIN': newState = { ...state, isAdminLoggedIn: true, adminUser: action.payload }; break;
     case 'ADMIN_LOGOUT': newState = { ...state, isAdminLoggedIn: false, adminUser: null }; break;
-    case 'RESET_ALL': newState = { ...loadState(), isAdminLoggedIn: state.isAdminLoggedIn, adminUser: state.adminUser }; break;
+    case 'RESET_ALL':
+      try { localStorage.removeItem(STORAGE_KEY); } catch {}
+      newState = { ...loadState(), isAdminLoggedIn: state.isAdminLoggedIn, adminUser: state.adminUser }; break;
     default: return state;
   }
   saveState(newState);
@@ -393,7 +395,6 @@ interface DynamicContextType {
   updateFAQ: (faq: FAQItem) => void;
   deleteFAQ: (id: string) => void;
   // Reviews
-  addReview: (review: Review) => void;
   deleteReview: (id: string) => void;
   // Coupons
   addCoupon: (coupon: Coupon) => void;
@@ -431,7 +432,6 @@ export function DynamicProvider({ children }: { children: ReactNode }) {
   const addFAQ = useCallback((f: FAQItem) => dispatch({ type: 'ADD_FAQ', payload: f }), []);
   const updateFAQ = useCallback((f: FAQItem) => dispatch({ type: 'UPDATE_FAQ', payload: f }), []);
   const deleteFAQ = useCallback((id: string) => dispatch({ type: 'DELETE_FAQ', payload: id }), []);
-  const addReview = useCallback((r: Review) => dispatch({ type: 'ADD_REVIEW', payload: r }), []);
   const deleteReview = useCallback((id: string) => dispatch({ type: 'DELETE_REVIEW', payload: id }), []);
   const addCoupon = useCallback((c: Coupon) => dispatch({ type: 'ADD_COUPON', payload: c }), []);
   const updateCoupon = useCallback((c: Coupon) => dispatch({ type: 'UPDATE_COUPON', payload: c }), []);
@@ -457,6 +457,9 @@ export function DynamicProvider({ children }: { children: ReactNode }) {
   const validateCoupon = useCallback((code: string, cartTotal: number) => {
     const coupon = state.coupons.find(c => c.code === code.toUpperCase() && c.isActive);
     if (!coupon) return { valid: false, discount: 0, message: 'Invalid coupon code' };
+    const today = new Date().toISOString().slice(0, 10);
+    if (today < coupon.startDate || today > coupon.endDate) return { valid: false, discount: 0, message: 'This coupon has expired' };
+    if (coupon.usageLimit !== undefined && coupon.usedCount >= coupon.usageLimit) return { valid: false, discount: 0, message: 'This coupon is no longer available' };
     if (coupon.minCartValue && cartTotal < coupon.minCartValue) return { valid: false, discount: 0, message: `Minimum cart value: ${formatPriceUtil(coupon.minCartValue, state.settings.currency)}` };
     let discount = 0;
     if (coupon.type === 'percentage') {
@@ -473,7 +476,7 @@ export function DynamicProvider({ children }: { children: ReactNode }) {
       state, dispatch, addProduct, updateProduct, deleteProduct,
       addCollection, updateCollection, deleteCollection,
       updateHomepage, addJournalPost, updateJournalPost, deleteJournalPost,
-      addFAQ, updateFAQ, deleteFAQ, addReview, deleteReview,
+      addFAQ, updateFAQ, deleteFAQ, deleteReview,
       addCoupon, updateCoupon, deleteCoupon, updateSettings,
       adminLogin, adminLogout, resetAll,
       formatPrice: formatPriceFn, getProductBySlug, getProductsByCollection, getCollectionBySlug, validateCoupon,
@@ -489,5 +492,5 @@ export function useDynamic() {
   return ctx;
 }
 
-export { ADMIN_EMAIL, ADMIN_PASSWORD, SIZES };
+export { ADMIN_EMAIL, ADMIN_PASSWORD, SIZES, STORAGE_KEY as CATALOGUE_STORAGE_KEY };
 export type { HomepageContent, FAQItem, SiteSettings };

@@ -75,7 +75,7 @@ export interface Cart {
   subtotal: number;
   discount: number;
   shipping: number;
-  tax: number;
+  tax: number; // GST already included in the prices, for information
   total: number;
   couponCode?: string;
 }
@@ -125,9 +125,12 @@ export interface Order {
   subtotal: number;
   discount: number;
   shipping: number;
-  tax: number;
+  codFee?: number;
+  tax: number; // GST already included in the prices, for information
   total: number;
   currency: Currency;
+  paymentMethod?: string;
+  isPreview?: boolean;
   status: OrderStatus;
   paymentStatus: 'pending' | 'authorized' | 'captured' | 'failed' | 'refunded';
   paymentId?: string;
@@ -168,6 +171,7 @@ export interface User {
   createdAt: string;
   addresses: Address[];
   wishlist: string[];
+  marketingOptIn?: boolean;
 }
 
 export type UserRole = 'customer' | 'super_admin' | 'catalog_manager' | 'order_manager' | 'support_agent' | 'marketing_editor' | 'analyst';
